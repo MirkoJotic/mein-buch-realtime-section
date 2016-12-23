@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,5 +56,9 @@ Route::post('initiateNegotiation', ['as'=>'thread.findOrInitiate', 'uses' => 'Th
 Route::post('mythreads', ['as'=>'thread.findMine', 'uses' => 'ThreadsController@findMineThreads']);
 Route::post('sendmessage', ['as'=>'thread.message.send', 'uses'=> 'ThreadsController@saveMessage']);
 
+Route::post('/addtoconversationuserlist', ['as'=>'thread.find.users', 'uses'=>'ThreadsController@addtoconversationlist']);
+Route::post('/addusertoconversation', ['as' => 'thread.add.user', 'uses' => 'ThreadsController@addusertoconversation']);
 
-Route::get('testing', ['as'=>'testingtesting', 'uses'=>'ThreadsController@testing']);
+Route::get('/test', function(Request $request) {
+  return response()->json(array('Testing', '...', 'Hmmm???'));
+});

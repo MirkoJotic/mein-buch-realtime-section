@@ -5,7 +5,7 @@
         <button @click="visible = ! visible" class="btn btn-primary">
           Create Task
         </button>
-      </div> 
+      </div>
     </div>
     <transition
       name="custom-task-form"
@@ -26,7 +26,7 @@
             Submit
           </button>
           <button @click="visible = false" type="button" class="btn btn-default">
-            Cancel 
+            Cancel
           </button>
 
           </div>
@@ -39,12 +39,6 @@
 <script>
     export default {
         mounted() {
-//console.log("create-task-mounted");
-//console.log("mounted default newTodo value");
-//console.log(this.$store.getters.newTodo);
-//console.log("set new newTodo value = Vue JS");
-//this.$store.dispatch('testingAdd', 'Vue JS');
-//console.log(this.$store.getters.newTodo); 
         },
         data() {
           return {
@@ -59,15 +53,16 @@
             console.log("validate form");
           },
           submitForm: function() {
+            console.log('sent')
             var data = {
-              _token: $("#csrf").val(),
+              _token: $("#token").attr('content'),
               title: this.title,
               details: this.details
             };
-            $.post("create", data).done(function(response){
+            $.post("/tasks/create", data).done(function(response){
               this.clearForm();
               this.visible = false;
-            }.bind(this));     
+            }.bind(this));
           },
           clearForm: function() {
             this.title = "";

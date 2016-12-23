@@ -25,6 +25,7 @@
           $.getJSON('/tasks/list', function(data) {
             this.tasks = data;
           }.bind(this));
+          this.$store.dispatch('testing')
         },
         data() {
           return {

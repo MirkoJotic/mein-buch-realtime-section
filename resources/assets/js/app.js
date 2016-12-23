@@ -25,7 +25,7 @@ import store from './store/store';
 
 Vue.http.headers.common['X-CSRF-TOKEN'] = $("#token").attr('content')
 
-Vue.component('create-task', require('./components/createTask.vue'))
+Vue.component('create-task', require('./components/CreateTask.vue'))
 Vue.component('task-list', require('./components/TaskList.vue'))
 Vue.component('sidebar', require('./components/Sidebar.vue'))
 Vue.component('conversations-list', require('./components/ConversationsList.vue'))
@@ -35,6 +35,7 @@ Vue.component('conversations-list-body-item', require('./components/Conversation
 
 Vue.component('active-conversation', require('./components/ActiveConversation.vue'))
 Vue.component('active-conversation-heading', require('./components/ActiveConversationHeading.vue'))
+Vue.component('add-people-to-conversation', require('./components/AddPeopleToConversation.vue'))
 Vue.component('active-conversation-body', require('./components/ActiveConversationBody.vue'))
 Vue.component('active-conversation-form', require('./components/ActiveConversationForm.vue'))
 

@@ -1,7 +1,9 @@
 <template>
   <div>
-    <ul>
-      <li v-for="message in getCurrentConversation.messages">{{ message.content }}</li>
+    <ul class="message-list">
+      <li v-for="message in getCurrentConversation.messages">
+        <b>{{ messageBelongsTo(message.user_id) }}:</b> {{ message.content }}
+      </li>
     </ul>
   </div>
 </template>
@@ -12,6 +14,9 @@
       console.log('active conversation body ready...')
     },
     methods: {
+      messageBelongsTo(uid) {
+        return this.$store.getters.currentConversation.participants.find( participant => participant.id === uid ).email
+      }
     },
     computed: {
       activeConversationId: function() {
@@ -23,3 +28,10 @@
     }
   }
 </script>
+<style>
+ .message-list {
+  list-style: none;
+
+ }
+
+</style>

@@ -5,13 +5,17 @@ import Vuex from 'vuex'
 Vue.use(Vuex);
 
 const state = {
+    /* FLAGS TO BE CLOSED WHEN WHOLE WINDOW IS CLOSED */
     /* on/off if sidebar is opened */
-    show_sidebar: '',
-    /* we can be either in all conversation mode or
-     one conversation mode */
-    show_conversation: '',
+    show_sidebar: false,
+    /* we can be either in all conversations mode or
+     active conversation mode */
+    show_conversation: false,
     /* we can't be in coversation mode if there is no id*/
-    conversation_id: '',
+    conversation_id: null,
+    /* if you want to open modal or whatever this needs to be true */
+    show_add_people_to_conversation: false,
+    /* END OF FLAGS */
     conversations: [],
     currentUser: {
       id: '',
@@ -45,6 +49,12 @@ const mutations = {
     },
     ADD_CONVERSATION ( state, conversation ) {
       state.conversations.push(conversation);
+    },
+    TOGGLE_SHOW_ADD_PEOPLE_TO_CONVERSATION ( state ) {
+      state.show_add_people_to_conversation = ! state.show_add_people_to_conversation
+    },
+    ADD_USER_TO_CURRENT_CONVERSATION ( state, user ) {
+      state.conversations.find( conversation => conversation.id === state.conversation_id ).participants.push(user)
     },
     REMOVE_CONVERSATION ( state, conversation ) {
       // TODO: below this store commented out there is a solution
@@ -85,6 +95,17 @@ const actions = {
     },
     addMessage ( { commit }, data ) {
       commit ( 'ADD_MESSAGE_TO_CONVERSATION', data )
+    },
+    toggleShowAddPeopleToConversation ( {commit} ) {
+      commit ( 'TOGGLE_SHOW_ADD_PEOPLE_TO_CONVERSATION' )
+    },
+    addUserToCurrentConversation ( { commit }, user ) {
+      commit ( 'ADD_USER_TO_CURRENT_CONVERSATION', user )
+    },
+    testing( { commit } ) {
+      Vue.$http.get('/test').then((response)=>{
+        console.log(response.body)
+      }).catch();
     }
 }
 

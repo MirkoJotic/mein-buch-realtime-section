@@ -49,15 +49,15 @@ class ThreadsController extends Controller
         $message->content = $content;
         $message->user_id = $user->id;
         $result = $message->save();
-	
-	$messageWithUser = Message::where(['id'=>$message->id])->with('user')->first();
+
+        $messageWithUser = Message::where(['id'=>$message->id])->with('user')->first();
         event(new \App\Events\NewMessage($messageWithUser, $thread));
 
         return response()->json($result);
     }
 
     public function findMineThreads ( Request $request ) {
-    // TODO: Protect this 
+    // TODO: Protect this
         $user = Sentinel::getUser();
         $threads = \App\User::where('id', $user->id)->with('threadsWithMessagesAndTask')->first();
 //die(json_encode($threads));
@@ -69,5 +69,22 @@ class ThreadsController extends Controller
         return response()->json($messageWithUser);
     }
 
+    public function addtoconversationlist ( Request $request ) {
+        $searchString = $request->get('s');
+        $users = \App\User::where('email', 'LIKE', "%$searchString%")
+                            ->orWhere('first_name', 'LIKE', "%$searchString%")
+                            ->orWhere('last_name', 'LIKE', "%$searchString%")
+                            ->limit(10)
+                            ->get();
+        return response()->json($users);
+    }
+
+    public function addusertoconversation ( Request $request ) {
+        $user = \App\User::find($request->get('uid'));
+        $thread = Thread::find($request->get('thread_id'));
+        // Check if added alerady and such
+        $thread->participants()->save($user);
+        return response()->json($user);
+    }
 
 }

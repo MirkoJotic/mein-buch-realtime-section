@@ -5,6 +5,9 @@
       <span>{{ participants }}</span>
     </div>
     <button @click="backToConversationsList()">Back</button>
+    <button @click="openListOfPeople()">Add Person to chat</button>
+
+
   </div>
 </template>
 
@@ -13,11 +16,29 @@
     mounted() {
       console.log("active conversation heading")
     },
+    data: function() {
+      return {
+      }
+    },
     methods: {
       backToConversationsList: function() {
         console.log(this.$store.state.show_conversation ? 'On' : 'Off')
         this.$store.dispatch('closeConversation')
         console.log(this.$store.state.show_conversation ? 'On' : 'Off')
+      },
+      openListOfPeople() {
+        /*this.$http.post('/allusers').then(
+          (response) => {
+            console.log(response.body)
+            this.$store.dispatch('toggleShowAddPeopleToConversation')
+          },
+          (response) => {
+            console.log(response.body)
+          }
+        )*/
+        console.log(this.$store.state.show_add_people_to_conversation)
+        this.$store.dispatch('toggleShowAddPeopleToConversation')
+        console.log(this.$store.state.show_add_people_to_conversation)
       }
     },
     computed: {
@@ -29,6 +50,9 @@
           participantsString += join + participant.email
         })
         return participantsString
+      },
+      show_add_people_to_conversation: function() {
+        return this.$store.state.show_add_people_to_conversation
       }
     }
   }

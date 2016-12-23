@@ -1,9 +1,22 @@
 <template>
-  <div>
-    <ul>
-      <li v-for="message in getCurrentConversation.messages">{{ message.content }}</li>
-    </ul>
-  </div>
+
+    <div class="sidebar-body">
+        <ul class="messages-list">
+            <li class="message" v-for="message in getCurrentConversation.messages">
+                <div class="message-info">
+                    <div class="contact-name">Lola</div>
+                    <div class="message-time">08:13 AM</div>
+                </div>
+                <div class="message-body">
+                    {{ message.content }}
+                </div>
+            </li>
+        </ul>
+        <div class="messages-send">
+            <active-conversation-form></active-conversation-form>
+        </div>
+    </div>
+
 </template>
 
 <script>
@@ -12,6 +25,7 @@
       console.log('active conversation body ready...')
     },
     methods: {
+
     },
     computed: {
       activeConversationId: function() {
@@ -22,4 +36,7 @@
       }
     }
   }
+
+
+
 </script>

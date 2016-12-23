@@ -1,11 +1,22 @@
 <template>
-  <div class="conversation-list-body-item">
-    <div @click="openConversation(thread.id)">
-      <div>{{ implodedParticipants(thread.participants) }}</div>
-      <div>{{ thread.task.title }}</div>
-      <div>{{ lastMessage }}</div>
-    </div>
-  </div>
+    <div class="conversation-list-body-item">
+            <li @click="openConversation(thread.id)" class="contact offline">
+                <div class="task-title">
+                    {{ thread.task.title }}
+                    </div>
+                <div class="contact-avatar">
+                    <img src="/images/avatar.jpg">
+                </div>
+                <div class="contact-info">
+                    <div v-html="implodedParticipants(thread.participants)"></div>
+
+                    <div class="contact-last-message">{{ lastMessage }}</div>
+                    <div class="contact-last-chat-time">
+                        <i class="icon ion-ios-clock-outline"> 21 Dec</i>
+                    </div>
+                </div>
+            </li>
+        </div>
 </template>
 
 <script>
@@ -22,6 +33,11 @@ export default {
   props: ['thread'],
   methods: {
     implodedParticipants(participantsArray) {
+    var unknown = "Group"
+        if (participantsArray.length > 2)
+         return  unknown
+
+         return '<div class="contact-name">' + participantsArray.find(p=>p.email != this.$store.state.currentUser.email).email + '</div>'
       var participants = ""
       var joiner = ""
       $.each(participantsArray, function(index, participant){
@@ -29,7 +45,7 @@ export default {
           joiner = ", "
         participants += joiner + participant.email
       })
-      return participants
+      return '<div class="contact-name">' + participants + '</div>';
     },
     openConversation(id) {
       this.$store.dispatch('setConversationId', id)
@@ -43,18 +59,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-.conversation-list-body-item {
-  min-height: 2.5rem;
-  background-color: grey;
-  margin: 0.5rem;
-  padding: 0.5rem;
-}
-
-.conversation-list-body-item:hover {
-  background-color: white;
-  cursor: pointer;
-}
-</style>

@@ -1,0 +1,483 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:100,100italic,300,300italic,400,400italic,500,500italic,700,700italic,900,900italic);
+
+/** SIDEBAR  START **/
+.sidebar {
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+    right: 0;
+    bottom: 0;
+    height: 100vh;
+    position: fixed;
+    background: url('../images/header-bg.jpg') repeat ;
+    background-size: 25%;
+    top: 0;
+    overflow: hidden;
+    color: #818181;
+    width: 400px;
+    z-index: 9999;
+
+}
+
+.sidebar .sidebar-header {
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+    height: 130px;
+    width: 100%;
+    background-color: #1c293d;
+}
+
+.sidebar .sidebar-body {
+    position: relative
+}
+
+.sidebar .sidebar-header .header-user {
+    height: 75px
+}
+
+.sidebar .sidebar-header .header-user .user-avatar {
+    -webkit-border-radius: 2px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 2px;
+    -moz-background-clip: padding;
+    border-radius: 2px;
+    background-clip: padding-box;
+    height: 50px;
+    margin: 12px 0 12px 12px;
+}
+
+.sidebar .sidebar-header .header-user .user-info {
+    color: #fff;
+    padding: 13px
+}
+
+.sidebar .sidebar-header .header-user .user-info .user-name {
+    font-size: 17px;
+    font-weight: 300
+}
+
+.sidebar .sidebar-header .header-user .user-info .user-status {
+    font-size: 14px;
+    font-weight: 300
+}
+
+.sidebar .sidebar-header .header-user.online .user-avatar {
+    border-left: 6px solid #00a65a
+}
+
+.sidebar .sidebar-header .header-user.offline .user-avatar {
+    border-left: 6px solid #dd4b39
+}
+
+.sidebar .sidebar-header .header-user.away .user-avatar {
+    border-left: 6px solid #f39c12
+}
+
+.sidebar .sidebar-header .header-actions {
+    height: 50px;
+    list-style: none;
+    margin: 0;
+    padding: 1px 5px
+}
+
+.sidebar .sidebar-header .header-actions li {
+    display: inline-block;
+    height: 50px;
+    padding: 10px
+}
+
+.sidebar .sidebar-header .header-actions li a {
+    color: #fff;
+    display: inline-block
+}
+
+.sidebar .sidebar-header .header-actions li a:hover {
+    cursor: pointer
+}
+
+.sidebar .sidebar-header .header-actions li a i {
+    font-size: 33px
+}
+
+.sidebar .sidebar-body .contacts-search {
+    height: 48px;
+    position: relative
+}
+
+.sidebar .sidebar-body .contacts-search .searchinput {
+    background-color: #fff;
+    border: 1px solid #fff;
+    border-bottom: 1px solid #f5f5f5;
+    display: block;
+    height: 48px;
+    left: 0;
+    padding-left: 35px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 2
+}
+
+.sidebar .sidebar-body .contacts-search .searchinput:focus {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    outline: 0
+}
+
+.sidebar .sidebar-body .contacts-search .searchinput::-webkit-input-placeholder {
+    font-family: 'Roboto', sans-serif, tahoma;
+    font-size: 15px;
+    font-weight: 300
+}
+
+.sidebar .sidebar-body .contacts-search .searchinput::-moz-placeholder {
+    font-family: 'Roboto', sans-serif, tahoma;
+    font-size: 15px;
+    font-weight: 300
+}
+
+.sidebar .sidebar-body .contacts-search .searchinput:-moz-placeholder {
+    font-family: 'Roboto', sans-serif, tahoma;
+    font-size: 15px;
+    font-weight: 300
+}
+
+.sidebar .sidebar-body .contacts-search .searchinput:-ms-input-placeholder {
+    font-family: 'Roboto', sans-serif, tahoma;
+    font-size: 15px;
+    font-weight: 300
+}
+
+.sidebar .sidebar-body .contacts-search .searchicon {
+    color: #1c293d;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 18px;
+    height: 16px;
+    left: 10px;
+    position: absolute;
+    top: 12px;
+    width: 16px;
+    z-index: 124;
+}
+
+.sidebar .sidebar-body .contacts-list {
+    list-style: none;
+    margin: 0;
+    overflow: auto;
+    padding: 0
+}
+
+.sidebar .sidebar-body .contacts-list .contact {
+    height: 121px;
+    padding: 8px;
+    position: relative
+}
+
+.sidebar .sidebar-body .contacts-list .contact:hover {
+    background-color: #f3f3f3;
+    cursor: pointer
+}
+
+.sidebar .sidebar-body .contacts-list .task-title {
+    width: 100%;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #5f5f5f;
+    font-family: 'Roboto', sans-serif, tahoma;
+    font-size: 17px;
+    padding: 5px 5px 5px 0px;
+    margin-bottom: 3px;
+    line-height: 20px;
+
+}
+
+.sidebar .sidebar-body .contacts-list .task-title:before {
+    font-family: Ionicons;
+    left: 0;
+    font-size: 20px;
+    padding: 8px;
+    content: "\f36b";
+}
+
+.sidebar .sidebar-body .contacts-list .contact.online .contact-avatar {
+    border-left: 6px solid #00a65a
+}
+
+.sidebar .sidebar-body .contacts-list .contact.offline .contact-avatar {
+    border-left: 6px solid #dd4b39
+}
+
+.sidebar .sidebar-body .contacts-list .contact.away .contact-avatar {
+    border-left: 6px solid #f39c12
+}
+
+.sidebar .sidebar-body .contacts-list .contact .contact-avatar {
+    -webkit-border-radius: 0px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 0px;
+    -moz-background-clip: padding;
+    border-radius: 0px;
+    background-clip: padding-box;
+    display: inline-block;
+    height: 55px;
+    margin-left: 30px;
+    width: 55px
+}
+
+.sidebar .sidebar-body .contacts-list .contact .contact-avatar img {
+    -webkit-border-radius: 0px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 0px;
+    -moz-background-clip: padding;
+    border-radius: 0px;
+    background-clip: padding-box;
+    height: 55px;
+    width: 55px
+}
+
+.sidebar .sidebar-body .contacts-list .contact .contact-info {
+    display: inline-block;
+    padding-left: 10px;
+    vertical-align: bottom
+}
+
+.sidebar .sidebar-body .contacts-list .contact .contact-info .contact-name {
+    font-size: 16px;
+    font-weight: 300;
+    color: #5f5f5f;
+    padding-bottom: 2px
+}
+
+.sidebar .sidebar-body .contacts-list .contact .contact-info .contact-last-message {
+    color: #777;
+    font-size: 14px;
+    font-weight: 300;
+    padding-bottom: 2px
+}
+
+.sidebar .sidebar-body .contacts-list .contact .contact-info .contact-last-chat-time {
+    font-size: 11px;
+    font-weight: 300;
+    color: #777;
+    padding-bottom: 2px
+}
+
+.sidebar .sidebar-body .contacts-list .contact .contact-info .contact-last-chat-time i {
+    font-size: 11px;
+    vertical-align: middle
+}
+
+.sidebar .header-user {
+    height: 75px
+}
+
+.sidebar .header-user .user-avatar {
+    -webkit-border-radius: 0px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 0px;
+    -moz-background-clip: padding;
+    border-radius: 0px;
+    background-clip: padding-box;
+    height: 50px;
+    margin: 12px 0 12px 12px;
+}
+
+.sidebar .header-user .user-info {
+    color: #fff;
+    padding: 14px
+}
+
+.sidebar .header-user .user-info .user-name {
+    font-size: 17px;
+    font-weight: 300
+}
+
+.sidebar .header-user .user-info .user-status {
+    font-size: 14px;
+    font-weight: 300
+}
+
+.sidebar .header-user.online .user-avatar {
+    border-left: 6px solid #00a65a
+}
+
+.sidebar .header-user.offline .user-avatar {
+    border-left: 6px solid #dd4b39
+}
+
+.sidebar .header-user.away .user-avatar {
+    border-left: 6px solid #f39c12
+}
+
+.sidebar .header-actions {
+    height: 50px;
+    list-style: none;
+    margin: 0;
+    padding: 1px 3px
+}
+
+.sidebar .header-actions li {
+    display: inline-block;
+    height: 50px;
+    padding: 10px
+}
+
+.sidebar .header-actions li a {
+    color: #fff;
+    display: inline-block
+}
+
+.sidebar .header-actions li a:hover {
+    cursor: pointer
+}
+
+.sidebar .header-actions li a i {
+    font-size: 30px
+}
+
+.sidebar .messages-list {
+    -lh-property: 0;
+    height: -webkit-calc(100vh - 125px);
+    height: -moz-calc(100vh - 135px);
+    height: calc(100vh - 135px);
+    list-style: none;
+    overflow: auto;
+    padding: 10px 0;
+    padding-bottom: 75px;
+}
+
+.sidebar .messages-list .message {
+    padding: 10px 25px
+}
+
+.sidebar .messages-list .message .message-info {
+    height: 18px
+}
+
+.sidebar .messages-list .message .message-info .contact-name, .sidebar .messages-list .message .message-info .message-time {
+    display: inline-block
+}
+
+.sidebar .messages-list .message .message-info .contact-name {
+    font-weight: 400;
+    margin-left: 10px;
+    margin-right: 5px
+}
+
+.sidebar .messages-list .message .message-info .message-time {
+    color: #999;
+    float: right;
+    font-size: 9px;
+    margin-right: 35px
+}
+
+.sidebar .messages-list .message .message-body {
+    -webkit-border-radius: 2px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 2px;
+    -moz-background-clip: padding;
+    border-radius: 2px;
+    background-clip: padding-box;
+    background-color: #e5e5e5;
+    font-size: 14px;
+    font-weight: 300;
+    margin-right: 10%;
+    margin-top: 10px;
+    padding: 12px 17px;
+    position: relative
+}
+
+.sidebar .messages-list .message .message-body:before {
+    border-bottom-color: #e5e5e5;
+    border-style: solid;
+    border-top-width: 0;
+    border-width: 7px;
+    color: #fff;
+    content: '';
+    display: block;
+    height: 0;
+    left: 10px;
+    position: absolute;
+    top: -14px;
+    width: 0
+}
+
+.sidebar .messages-list .message.reply .message-info .bullet, .sidebar .messages-list .message.reply .message-info .contact-name, .chatbar .messages-list .message.reply .message-info .message-time {
+    float: right;
+    margin-left: 10px;
+    margin-right: 0
+}
+
+.sidebar .messages-list .message.reply .message-info .message-time {
+    float: left;
+    margin-left: 35px;
+    margin-top: 2px
+}
+
+.sidebar .messages-list .message.reply .message-body {
+    background-color: #1c293d;
+    color: #fff;
+    margin-left: 10%;
+    margin-right: 0
+}
+
+.sidebar .messages-list .message.reply .message-body:before {
+    border-bottom-color: #1c293d;
+    left: auto;
+    right: 10px
+}
+
+.sidebar .messages-send {
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    bottom: 0px;
+    height: 65px;
+    left: 0;
+    padding: 15px;
+    position: absolute;
+    right: 0;
+    width: 100%
+}
+
+.append-icon {
+    position: relative;
+}
+
+.append-icon input {
+    padding-right: 36px;
+}
+
+.form-control {
+    -webkit-border-radius: 2px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 2px;
+    -moz-background-clip: padding;
+    border-radius: 2px;
+    background-clip: padding-box;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-color: #fafafa;
+    border: 1px solid #e5e5e5;
+}
+
+.append-icon i {
+    color: #1b1e25;
+    color: rgba(27, 30, 37, .6);
+    font-size: 14px;
+    height: 34px;
+    left: auto;
+    line-height: 34px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    width: 36px;
+}
+

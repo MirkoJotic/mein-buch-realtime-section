@@ -1,25 +1,28 @@
 <template>
-    <div :class="{ 'col-md-4': sidebarOpen, 'col-sm-6': sidebarOpen }" v-show="sidebarOpen">
-      <transition
-        name="sidebar-transition"
-        enter-active-class="animated slideInRight"
-        leave-active-class="animated slideOutRight"
-      >
-        <div v-show="sidebarOpen && ! conversationOpen">
-          <conversations-list></conversations-list>
-        </div>
-      </transition>
-      <transition
-        name="sidebar-transition"
-        enter-active-class="animated slideInRight"
-        leave-active-class="animated slideOutRight"
-      >
-        <div v-if="conversationOpen" class="">
-          <active-conversation></active-conversation>
-        </div>
-      </transition>
+    <div :class="{ 'sidebar': sidebarOpen}" v-show="sidebarOpen">
+
+        <transition
+                name="sidebar-transition"
+                enter-active-class="animated slideInRight"
+                leave-active-class="animated slideOutRight"
+        >
+            <div v-show="sidebarOpen && ! conversationOpen">
+                <conversations-list></conversations-list>
+            </div>
+        </transition>
+
+
+        <transition
+                name="sidebar-transition"
+                enter-active-class="animated slideInRight"
+                leave-active-class="animated slideOutRight"
+        >
+            <div v-if="conversationOpen" class="">
+                <active-conversation></active-conversation>
+            </div>
+        </transition>
+
     </div>
-  </transition>
 </template>
 
 <script>
@@ -45,4 +48,5 @@
           }
         }
     }
+
 </script>

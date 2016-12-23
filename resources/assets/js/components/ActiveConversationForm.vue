@@ -1,7 +1,11 @@
 <template>
-  <div>
-    <input v-on:keyup.enter="submitForm()" v-model="content" type="text" name="content" class="">
-  </div>
+
+
+    <div class="append-icon">
+      <input v-on:keyup.enter="submitForm()" v-model="content" type="text" name="content" class="form-control">
+      <i class="fa fa-paperclip text-primary" aria-hidden="true"></i>
+    </div>
+
 </template>
 
 <script>

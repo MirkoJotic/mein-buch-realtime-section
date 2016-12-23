@@ -2,7 +2,11 @@
 
 @section('title', 'Dashboard')
 
+
+
 @section('content')
+
+
   <div class="container" v-cloak>
     <div class="row">
         <create-task></create-task>

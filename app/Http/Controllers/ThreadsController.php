@@ -19,7 +19,7 @@ class ThreadsController extends Controller
         $task = Task::find($task_id);
         $userTaskCreator = User::find($task->created_by);
         $userThreadInitiator =  Sentinel::getUser();
-        $thread = Thread::where(['task_id'=>$task->id])->with('task')->with('messages')->first();
+        $thread = Thread::where(['task_id'=>$task->id])->with('task')->with('messages')->with('participants')->first();
         $taskThreadExists = true;
         if ( $thread === null ) {
             $taskThreadExists = false;
@@ -34,7 +34,7 @@ class ThreadsController extends Controller
             $message->thread_id = $thread->id;
             $message->user_id = $userThreadInitiator->id;
             $message->save();
-            $thread = Thread::where(['id'=>$thread->id])->with('task')->with('messages')->first();
+            $thread = Thread::where(['id'=>$thread->id])->with('task')->with('messages')->with('participants')->first();
         }
         return response()->json(['thread_exists'=>$taskThreadExists, 'thread'=>$thread]);
     }
@@ -49,7 +49,7 @@ class ThreadsController extends Controller
         $message->content = $content;
         $message->user_id = $user->id;
         $result = $message->save();
-	
+
 	$messageWithUser = Message::where(['id'=>$message->id])->with('user')->first();
         event(new \App\Events\NewMessage($messageWithUser, $thread));
 
@@ -57,7 +57,7 @@ class ThreadsController extends Controller
     }
 
     public function findMineThreads ( Request $request ) {
-    // TODO: Protect this 
+    // TODO: Protect this
         $user = Sentinel::getUser();
         $threads = \App\User::where('id', $user->id)->with('threadsWithMessagesAndTask')->first();
 //die(json_encode($threads));

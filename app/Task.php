@@ -10,6 +10,6 @@ class Task extends Model
     protected $fillable = [ 'title', 'details' ];
 
     public function creator() {
-        return $this->hasOne('App\User');
+        return $this->belongsTo('App\User');
     }
 }

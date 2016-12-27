@@ -22,9 +22,10 @@
 <script>
     export default {
         mounted() {
-          $.getJSON('/tasks/list', function(data) {
-            this.tasks = data;
-          }.bind(this));
+          this.$http.get('/tasks/list').then(
+            (response)=>{ this.tasks = response.body },
+            (response)=>{/*ERROR*/}
+          ).bind(this);
         },
         data() {
           return {
@@ -33,13 +34,13 @@
         },
         methods: {
           openConversation: function(taskId) {
-            this.$http.post('/initiateNegotiation', {taskId: taskId}).then(
+            this.$http.post('/chat/initiate/task', {task_id: taskId}).then(
               (response) => {
                 console.log(response.body)
-                if(response.body['thread_exists'] == false)
-                  this.$store.dispatch('addConversation', response.body['thread'] )
+                if(response.body.thread_exists == false)
+                  this.$store.dispatch('addConversation', response.body.thread )
 
-                this.$store.dispatch('setConversationId', response.body['thread'].id)
+                this.$store.dispatch('setConversationId', response.body.thread.id)
                 if(this.$store.state.conversation_id != '')
                   this.$store.dispatch('openConversation')
 

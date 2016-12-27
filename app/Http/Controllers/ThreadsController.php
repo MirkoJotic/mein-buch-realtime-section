@@ -16,15 +16,15 @@ class ThreadsController extends Controller
     /* add validation startThreadFromTask */
     public function chatInitiateTask ( Request $request ) {
         // TODO: add middleware to validate and forbid
-        $task = Task::where('id'=>$request->get('taskId'))->with('creator');
+        $task = Task::where('id', $request->get('task_id'))->with('creator')->first();
         $userInitiator =  Sentinel::getUser();
 
-        $thread = Thread::find($thread->id);
+        $thread = Thread::where('task_id', $task->id)->first();
         $taskThreadExists = true;
         if ( $thread === null )
         {
             $taskThreadExists = false;
-            $thread = new Thread(['task_id'=>$task_id]);
+            $thread = new Thread(['task_id'=>$task->id]);
             $thread->save();
 
             $thread->participants()->attach([$task->creator->id, $userInitiator->id]);
@@ -37,6 +37,13 @@ class ThreadsController extends Controller
         }
         $thread = Thread::taskMessagesParticipants($thread->id);
         return response()->json(['thread_exists'=>$taskThreadExists, 'thread'=>$thread]);
+    }
+
+    // TODO: protect and validate
+    public function chatThreads ( Request $request ) {
+        // TODO: we should support filter or something...
+        $threads = User::threadsTaskUserMessagesUserParticipantsUser(Sentinel::getUser()->id);
+        return response()->json($threads);
     }
 
     // TODO: protect and validate
@@ -54,13 +61,7 @@ class ThreadsController extends Controller
         /* Emmit Event */
         event(new \App\Events\NewMessage($message, $thread));
 
-        return response()->json($result);
-    }
-
-    // TODO: protect and validate
-    public function chatThreads ( Request $request ) {
-        $threads = User::threadsTaskUserMessagesUserParticipantsUser(Sentinel::getUser()->id);
-        return response()->json($threads);
+        return response()->json($message);
     }
 
     // TODO: add validation
@@ -74,7 +75,7 @@ class ThreadsController extends Controller
         // BAN IF ALREADY EXISTS
         $thread = Thread::find($request->get('thread_id'));
         $thread->participants()->attach($request->get('uid'));
-        return response()->json(['thread'=>$thread->id, 'user'=>$user]);
+        return response()->json(['thread'=>$thread->id, 'user'=>User::find($request->get('uid'))]);
     }
 
 }

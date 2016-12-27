@@ -8,7 +8,7 @@ class Message extends Model
 {
     protected $fillable = ['thread_id', 'user_id', 'content'];
 
-    public static messageWithUser($id)
+    public static function messageWithUser($id)
     {
       return self::where('id', $id)
                   ->with('user')

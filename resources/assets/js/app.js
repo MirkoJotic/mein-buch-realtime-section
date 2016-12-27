@@ -36,6 +36,7 @@ Vue.component('active-conversation', require('./components/ActiveConversation.vu
 Vue.component('active-conversation-heading', require('./components/ActiveConversationHeading.vue'))
 Vue.component('active-conversation-body', require('./components/ActiveConversationBody.vue'))
 Vue.component('active-conversation-form', require('./components/ActiveConversationForm.vue'))
+Vue.component('active-conversation-add-people', require('./components/ActiveConversationAddPeople.vue'))
 
 
 const app = new Vue({

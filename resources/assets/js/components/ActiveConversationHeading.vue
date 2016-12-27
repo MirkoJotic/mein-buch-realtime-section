@@ -9,16 +9,17 @@
                 <div class="user-status">online</div>
             </div>
         </div>
+        <active-conversation-add-people v-if="showAddPersonToConversation"></active-conversation-add-people>
         <ul class="header-actions pull-left">
             <li>
-                <a>
+                <a @click="toggleSidebar()">
                     <i class="icon ion-ios-arrow-right"></i>
                 </a>
             </li>
         </ul>
         <ul class="header-actions pull-right">
             <li>
-                <a @click="backToConversationsList()">
+                <a @click="showAddPersonToConversation = ! showAddPersonToConversation">
                     <i class="icon ion-ios-personadd-outline"></i>
                 </a>
             </li>
@@ -36,11 +37,19 @@
     mounted() {
       console.log("active conversation heading")
     },
+    data: function() {
+      return {
+        showAddPersonToConversation: false
+      }
+    },
     methods: {
       backToConversationsList: function() {
         console.log(this.$store.state.show_conversation ? 'On' : 'Off')
         this.$store.dispatch('closeConversation')
         console.log(this.$store.state.show_conversation ? 'On' : 'Off')
+      },
+      toggleSidebar: function() {
+        this.$store.dispatch('openSidebar')
       }
     },
     computed: {

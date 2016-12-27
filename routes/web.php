@@ -56,5 +56,7 @@ Route::post('initiateNegotiation', ['as'=>'thread.findOrInitiate', 'uses' => 'Th
 Route::post('mythreads', ['as'=>'thread.findMine', 'uses' => 'ThreadsController@findMineThreads']);
 Route::post('sendmessage', ['as'=>'thread.message.send', 'uses'=> 'ThreadsController@saveMessage']);
 
+Route::post('populatePeopleList', ['as'=>'thread.populatePeopleList', 'uses'=>'ThreadsController@populatePeopleList']);
+Route::post('addPersonToConversation', ['as'=>'thread.addPersonToConversation', 'uses'=>'ThreadsController@addPersonToConversation']);
 
 Route::get('testing', ['as'=>'testingtesting', 'uses'=>'ThreadsController@testing']);

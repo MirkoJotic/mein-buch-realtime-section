@@ -6,6 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
+
+    protected $fillable = ['task_id'];
+
+    public static function taskMessagesParticipants($thread_id)
+    {
+        return self::where('id', $thread_id)
+                    ->with('task')
+                    ->with('task.creator')
+                    ->with('participants')
+                    ->with('messages')
+                    ->with('messages.user')
+                    ->first();
+    }
+
     public function participants()
     {
         return $this->belongsToMany('App\User', 'thread_user', 'thread_id', 'user_id');

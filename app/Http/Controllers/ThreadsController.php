@@ -13,84 +13,68 @@ use Sentinel;
 class ThreadsController extends Controller
 {
 
-    public function findOrCreateThread ( Request $request ) {
+    /* add validation startThreadFromTask */
+    public function chatInitiateTask ( Request $request ) {
         // TODO: add middleware to validate and forbid
-        $task_id = $request->get('taskId');
-        $task = Task::find($task_id);
-        $userTaskCreator = User::find($task->created_by);
-        $userThreadInitiator =  Sentinel::getUser();
-        $thread = Thread::where(['task_id'=>$task->id])->with('task')->with('messages')->with('participants')->first();
+        $task = Task::where('id'=>$request->get('taskId'))->with('creator');
+        $userInitiator =  Sentinel::getUser();
+
+        $thread = Thread::find($thread->id);
         $taskThreadExists = true;
-        if ( $thread === null ) {
+        if ( $thread === null )
+        {
             $taskThreadExists = false;
-            $thread = new Thread();
-            $thread->task_id = $task_id;
+            $thread = new Thread(['task_id'=>$task_id]);
             $thread->save();
 
-            $thread->participants()->save($userTaskCreator);
-            $thread->participants()->save($userThreadInitiator);
-            $message = new Message();
-            $message->content = "Hi I would like to chat";
-            $message->thread_id = $thread->id;
-            $message->user_id = $userThreadInitiator->id;
+            $thread->participants()->attach([$task->creator->id, $userInitiator->id]);
+            $message = new Message([
+                'thread_id'=>$thread->id,
+                'user_id'=>$userInitiator->id,
+                'content'=>'Hi I would like to chat'
+            ]);
             $message->save();
-            $thread = Thread::where(['id'=>$thread->id])->with('task')->with('messages')->with('participants')->first();
         }
+        $thread = Thread::taskMessagesParticipants($thread->id);
         return response()->json(['thread_exists'=>$taskThreadExists, 'thread'=>$thread]);
     }
 
-    public function saveMessage ( Request $request ) {
-
+    // TODO: protect and validate
+    public function chatSendMessage ( Request $request ) {
         $thread = Thread::find($request->get('thread_id'));
-        $content = $request->get('content');
         $user = Sentinel::getUser();
-        $message = new Message();
-        $message->thread_id = $thread->id;
-        $message->content = $content;
-        $message->user_id = $user->id;
-        $result = $message->save();
+        $message = new Message([
+            'thread_id'=>$thread->id,
+            'user_id'=>$user->id,
+            'content'=>$request->get('content')
+        ]);
+        $message->save();
 
-	$messageWithUser = Message::where(['id'=>$message->id])->with('user')->first();
-        event(new \App\Events\NewMessage($messageWithUser, $thread));
+        $message = Message::messageWithUser($message->id);
+        /* Emmit Event */
+        event(new \App\Events\NewMessage($message, $thread));
 
         return response()->json($result);
     }
 
-    public function findMineThreads ( Request $request ) {
-    // TODO: Protect this
-        $user = Sentinel::getUser();
-        $threads = \App\User::where('id', $user->id)->with('threadsWithMessagesAndTask')->first();
-//die(json_encode($threads));
+    // TODO: protect and validate
+    public function chatThreads ( Request $request ) {
+        $threads = User::threadsTaskUserMessagesUserParticipantsUser(Sentinel::getUser()->id);
         return response()->json($threads);
     }
 
-    public function testMessageWithUser ( Request $request ) {
-        $threads = \App\User::where('id', 3)->with('threadsWithMessagesAndTask')->first();
-        return response()->json($messageWithUser);
-    }
-
-    public function populatePeopleList ( Request $request ) {
-        $searchString = $request->get('s');
-        $users = \App\User::where('email', 'LIKE', "%$searchString%")
-                            ->orWhere('first_name', 'LIKE', "%$searchString%")
-                            ->orWhere('last_name', 'LIKE', "%$searchString%")
-                            ->limit(10)
-                            ->get();
+    // TODO: add validation
+    public function chatUsersList ( Request $request ) {
+        // Add existent users to array
+        $users = User::populateUserList($request->get('s'), [Sentinel::getUser()->id]);
         return response()->json($users);
     }
 
-    public function addPersonToConversation ( Request $request ) {
-        $user = \App\User::find($request->get('uid'));
+    public function chatUsersAdd ( Request $request ) {
+        // BAN IF ALREADY EXISTS
         $thread = Thread::find($request->get('thread_id'));
-        // Check if added alerady and such
-        $thread->participants()->save($user);
+        $thread->participants()->attach($request->get('uid'));
         return response()->json(['thread'=>$thread->id, 'user'=>$user]);
     }
 
-    public function testing( Request $request ) {
-        $user = Sentinel::getUser();
-        $all = \App\User::threadsTaskUserMessagesUserParticipantsUser($user->id);
-        $json_string = json_encode($all, JSON_PRETTY_PRINT);
-        die('<pre>'.print_r($json_string, true).'</pre>');
-    }
 }

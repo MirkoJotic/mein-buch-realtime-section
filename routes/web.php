@@ -52,6 +52,23 @@ Route::get('tasks', ['as' => 'tasks', 'uses' => 'TasksController@createForm']);
 Route::get('tasks/list', ['as' => 'tasks.list', 'uses' => 'TasksController@getTasks']);
 Route::post('tasks/create', ['as' => 'tasks.create.post', 'uses' => 'TasksController@create']);
 
+
+Route::post('chat/initiate/task',
+  ['as'=>'chat.initiate.task',   'uses'=>'ThreadsController@chatInitiateTask']
+);
+Route::post('chat/threads',
+  ['as'=>'chat.threads',         'uses'=>'ThreadsController@chatThreads']
+);
+Route::post('chat/send/message',
+  ['as'=>'chat.send.message',    'uses'=>'ThreadsController@chatSendMessage']
+);
+Route::post('chat/users/list',
+  ['as'=>'chat.users.list',      'uses'=>'ThreadsController@chatUsersList']
+);
+Route::post('chat/users/add',
+  ['as'=>'chat.users.add',       'uses'=>'ThreadsController@chatUsersAdd']
+);
+
 Route::post('initiateNegotiation', ['as'=>'thread.findOrInitiate', 'uses' => 'ThreadsController@findOrCreateThread']);
 Route::post('mythreads', ['as'=>'thread.findMine', 'uses' => 'ThreadsController@findMineThreads']);
 Route::post('sendmessage', ['as'=>'thread.message.send', 'uses'=> 'ThreadsController@saveMessage']);

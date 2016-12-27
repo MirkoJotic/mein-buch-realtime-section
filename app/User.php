@@ -10,11 +10,18 @@ class User extends SentinelUser
 {
 
 
-    public function threadsWithMessagesAndTask() {
-        return $this->belongsToMany('App\Thread')->with('messages')->with('task')->with('participants');
+    public static function populateUserList($search, $usersInConversation)
+    {
+        return self::whereNotIn('id', $usersInConversation)
+                    ->where('email', 'LIKE', "%$search%")
+                    ->orWhere('first_name', 'LIKE', "%$search%")
+                    ->orWhere('last_name', 'LIKE', "%$search%")
+                    ->limit(15)
+                    ->get();
     }
 
-    public static function threadsTaskUserMessagesUserParticipantsUser($uid) {
+    public static function threadsTaskUserMessagesUserParticipantsUser($uid)
+    {
         return self::where('id', $uid)
                     ->with('threads')
                     ->with('threads')

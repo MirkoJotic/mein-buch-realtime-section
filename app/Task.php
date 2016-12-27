@@ -12,4 +12,5 @@ class Task extends Model
     public function creator() {
         return $this->belongsTo('App\User');
     }
+
 }

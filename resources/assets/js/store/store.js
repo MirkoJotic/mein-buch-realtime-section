@@ -54,6 +54,10 @@ const mutations = {
     },
     UPADTE_ACTIVE_CONVERSATION_FEED ( state, message ) {
       // TODO
+    },
+    ADD_USER_TO_CURRENT_CONVERSATION ( state, data ) {
+      var conversation =  state.conversations.find( conversation => conversation.id === data.thread)
+      conversation.participants.push(data.user)
     }
 }
 
@@ -85,6 +89,9 @@ const actions = {
     },
     addMessage ( { commit }, data ) {
       commit ( 'ADD_MESSAGE_TO_CONVERSATION', data )
+    },
+    addUserToCurrentConversation ( { commit }, data ) {
+      commit ( 'ADD_USER_TO_CURRENT_CONVERSATION', data )
     }
 }
 

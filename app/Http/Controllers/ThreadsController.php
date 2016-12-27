@@ -69,5 +69,28 @@ class ThreadsController extends Controller
         return response()->json($messageWithUser);
     }
 
+    public function populatePeopleList ( Request $request ) {
+        $searchString = $request->get('s');
+        $users = \App\User::where('email', 'LIKE', "%$searchString%")
+                            ->orWhere('first_name', 'LIKE', "%$searchString%")
+                            ->orWhere('last_name', 'LIKE', "%$searchString%")
+                            ->limit(10)
+                            ->get();
+        return response()->json($users);
+    }
 
+    public function addPersonToConversation ( Request $request ) {
+        $user = \App\User::find($request->get('uid'));
+        $thread = Thread::find($request->get('thread_id'));
+        // Check if added alerady and such
+        $thread->participants()->save($user);
+        return response()->json(['thread'=>$thread->id, 'user'=>$user]);
+    }
+
+    public function testing( Request $request ) {
+        $user = Sentinel::getUser();
+        $all = \App\User::threadsTaskUserMessagesUserParticipantsUser($user->id);
+        $json_string = json_encode($all, JSON_PRETTY_PRINT);
+        die('<pre>'.print_r($json_string, true).'</pre>');
+    }
 }

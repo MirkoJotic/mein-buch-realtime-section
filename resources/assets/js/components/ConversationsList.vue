@@ -12,9 +12,6 @@ export default {
     this.$http.post('/chat/threads', this.filter).then(
       (response) => {
         // If this doesn't fire of someone should be notified
-        console.log("response.mirko")
-        console.log(response.body)
-        console.log(response)
         this.$store.dispatch('setConversations', response.body.threads)
         this.$store.dispatch('setCurrentUser', { id: response.body.id, email: response.body.email })
       },

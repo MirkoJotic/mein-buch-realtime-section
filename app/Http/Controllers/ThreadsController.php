@@ -35,7 +35,10 @@ class ThreadsController extends Controller
             ]);
             $message->save();
         }
-        $thread = Thread::taskMessagesParticipants($thread->id);
+        $thread = Thread::where('id', $thread->id)->first();
+        foreach ($thread->participants as $key => $participant) {
+            event(new \App\Events\NewThread($thread, $participant, $taskThreadExists));
+        }
         return response()->json(['thread_exists'=>$taskThreadExists, 'thread'=>$thread]);
     }
 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
-
+    protected $with = ['participants', 'messages', 'messages.user', 'task', 'task.creator'];
     protected $fillable = ['task_id'];
 
     public static function taskMessagesParticipants($thread_id)

@@ -11,7 +11,6 @@
 <script>
   export default {
     mounted() {
-      console.log('message form ready...')
     },
     data: function() {
       return {
@@ -34,7 +33,7 @@
           content: this.content,
           thread_id: this.getCurrentConversation.id
         }
-        this.$http.post('/sendmessage', data).then(
+        this.$http.post('/chat/send/message', data).then(
           (response) => {
             this.content = ""
             // success callback do nothing as updating message feed is done through socket

@@ -11,11 +11,11 @@ const state = {
      one conversation mode */
     show_conversation: '',
     /* we can't be in coversation mode if there is no id*/
-    conversation_id: '',
+    conversation_id: null,
     conversations: [],
     currentUser: {
-      id: '',
-      email: ''
+      id: null,
+      email: null
     }
 }
 
@@ -63,6 +63,7 @@ const mutations = {
 
 const actions = {
     addConversation ( { commit }, conversation ) {
+      console.log(conversation)
       commit ( 'ADD_CONVERSATION', conversation )
     },
     openSidebar ( {commit} ) {
@@ -75,7 +76,6 @@ const actions = {
       commit ( 'OPEN_CONVERSATION' )
     },
     closeConversation ( {commit} ) {
-      console.log("inside action closeConversation")
       commit ( 'CLOSE_CONVERSATION')
     },
     toggleSidebar ( { commit } ) {
@@ -104,7 +104,9 @@ const getters = {
   },
   conversations: state => {
     return state.conversations
-  }
+  },
+  currentUserId: state => { return state.currentUser.id },
+  currentUserEmail: state => { return state.currentUser.email }
 
 }
 

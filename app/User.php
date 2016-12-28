@@ -24,11 +24,11 @@ class User extends SentinelUser
     {
         return self::where('id', $uid)
                     ->with('threads')
-                    ->with('threads')
                     ->with('threads.participants')
                     ->with('threads.messages')
                     ->with('threads.messages.user')
                     ->with('threads.task')
+                    ->with('threads.task.creator')
                     ->first();
     }
 

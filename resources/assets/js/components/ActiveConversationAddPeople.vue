@@ -19,7 +19,6 @@
 <script>
   export default {
     mounted() {
-      console.log("add people to conversation component ready")
       this.populatePeopleList()
     },
     data: function() {
@@ -35,7 +34,7 @@
         this.timer = setTimeout(this.populatePeopleList, 800)
       },
       populatePeopleList() {
-        this.$http.post('/populatePeopleList', {s: this.s}).then(
+        this.$http.post('/chat/users/list', {s: this.s}).then(
           (response) => {
             this.people = response.body
           },
@@ -45,12 +44,11 @@
         ).bind(this);
       },
       addPersonToConversation(uid) {
-        console.log("ADD TO CONVERSATION CLICKED")
         var data = {
           uid: uid,
           thread_id: this.$store.state.conversation_id
         }
-        this.$http.post('/addPersonToConversation', data).then(
+        this.$http.post('/chat/users/add', data).then(
           (response) => {
             this.$store.dispatch('addUserToCurrentConversation', response.body)
             this.s = ""

@@ -35,7 +35,6 @@
 <script>
   export default {
     mounted() {
-      console.log("active conversation heading")
     },
     data: function() {
       return {
@@ -44,9 +43,7 @@
     },
     methods: {
       backToConversationsList: function() {
-        console.log(this.$store.state.show_conversation ? 'On' : 'Off')
         this.$store.dispatch('closeConversation')
-        console.log(this.$store.state.show_conversation ? 'On' : 'Off')
       },
       toggleSidebar: function() {
         this.$store.dispatch('openSidebar')

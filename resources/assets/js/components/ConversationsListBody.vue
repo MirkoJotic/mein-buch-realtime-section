@@ -11,12 +11,9 @@
         </ul>
     </div>
 </template>
-
 <script>
 export default {
   mounted() {
-    console.log('conversation list ready')
-    console.log(this.threads)
   },
   methods: {
   },

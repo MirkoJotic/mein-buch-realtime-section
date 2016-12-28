@@ -25,7 +25,6 @@
   export default {
     mounted() {
       this.currentUserId = this.$store.state.currentUser.id;
-      console.log('active conversation body ready...')
     },
     data: function () {
       return {

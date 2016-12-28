@@ -26,8 +26,11 @@
 </template>
 
 <script>
-    export default {
+const socket = io('http://127.0.0.1:3000');
+
+export default {
         mounted() {
+            setTimeout(this.openNewThreadSocket, 1000)
         },
         data() {
           return {
@@ -35,6 +38,16 @@
           }
         },
         methods: {
+            openNewThreadSocket: function() {
+                console.log("Socket OPENED ln 43 Sidebar.vue")
+                socket.on("newthread."+this.$store.state.currentUser.id+":App\\Events\\NewThread", function(message) {
+                        console.log("Socket Msg receiv. ln 44 Sidebar.vue")
+                        console.log(message)
+                        if(message.taskThreadExists == false)
+                          this.$store.dispatch('addConversation', message.thread )
+
+                }.bind(this))
+            }
         },
         computed: {
           sidebarOpen: function() {

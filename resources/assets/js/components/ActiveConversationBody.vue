@@ -24,7 +24,8 @@
 <script>
   export default {
     mounted() {
-      this.currentUserId = this.$store.state.currentUser.id;
+      this.currentUserId = this.$store.state.currentUser.id
+      this.$store.dispatch('markAllMessagesAsSeen')
     },
     data: function () {
       return {

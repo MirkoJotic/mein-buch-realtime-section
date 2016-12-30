@@ -52,12 +52,17 @@ const mutations = {
     ARCHIVE_CONVERSATION ( state, conversation ) {
       // TODO
     },
-    UPADTE_ACTIVE_CONVERSATION_FEED ( state, message ) {
-      // TODO
-    },
     ADD_USER_TO_CURRENT_CONVERSATION ( state, data ) {
       var conversation =  state.conversations.find( conversation => conversation.id === data.thread)
       conversation.participants.push(data.user)
+    },
+    MARK_ALL_MESSAGES_AS_SEEN ( state ) {
+      var unseen = state.conversations.find( c => c.id === state.conversation_id ).unseen_messages
+      unseen.splice(0)
+    },
+    ADD_UNSEEN_MESSAGES ( state, dataThread ) {
+      var thread = state.conversations.find( c => c.id === dataThread.id )
+      thread.unseen_messages = dataThread.unseen_messages
     }
 }
 
@@ -92,6 +97,12 @@ const actions = {
     },
     addUserToCurrentConversation ( { commit }, data ) {
       commit ( 'ADD_USER_TO_CURRENT_CONVERSATION', data )
+    },
+    markAllMessagesAsSeen ( { commit } ) {
+      commit ( 'MARK_ALL_MESSAGES_AS_SEEN' )
+    },
+    addUnseenMessages ( {commit}, thread ) {
+      commit ( 'ADD_UNSEEN_MESSAGES', thread )
     }
 }
 

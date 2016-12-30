@@ -12,7 +12,8 @@ class TasksController extends Controller
 
     public function getTasks(Request $request)
     {
-        return response()->json(Task::all());
+	$tasks = Task::where('created_by', '!=', Sentinel::getUser()->id)->get();
+        return response()->json($tasks);
     }
 
     public function findTask(Request $request)

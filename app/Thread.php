@@ -6,7 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
-    protected $with = ['participants', 'messages', 'messages.user', 'task', 'task.creator'];
+    protected $with = [
+        'participants',
+        'messages',
+        'messages.user',
+        'task',
+        'task.creator',
+        'unseenMessages',
+    ];
+
     protected $fillable = ['task_id'];
 
     public static function taskMessagesParticipants($thread_id)
@@ -18,6 +26,11 @@ class Thread extends Model
                     ->with('messages')
                     ->with('messages.user')
                     ->first();
+    }
+
+    public function unseenMessages()
+    {
+        return $this->hasMany('App\MessageSeenStatus');
     }
 
     public function participants()

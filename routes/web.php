@@ -62,6 +62,9 @@ Route::post('chat/threads',
 Route::post('chat/send/message',
   ['as'=>'chat.send.message',    'uses'=>'ThreadsController@chatSendMessage']
 );
+Route::post('chat/messages/read',
+  ['as'=>'chat.messages.read',    'uses'=>'ThreadsController@chatMarkMessagesAsRead']
+);
 Route::post('chat/users/list',
   ['as'=>'chat.users.list',      'uses'=>'ThreadsController@chatUsersList']
 );

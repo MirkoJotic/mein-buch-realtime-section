@@ -29,6 +29,8 @@ class User extends SentinelUser
                     ->with('threads.messages.user')
                     ->with('threads.task')
                     ->with('threads.task.creator')
+                    ->with('threads.unseenMessages')
+                    ->with('threads.unseenMessages.user')
                     ->first();
     }
 
@@ -39,4 +41,6 @@ class User extends SentinelUser
     public function tasks() {
       return $this->hasMany('App\Task');
     }
+
+
 }

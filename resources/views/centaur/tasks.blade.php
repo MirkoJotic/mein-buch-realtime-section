@@ -9,9 +9,13 @@
 
   <div class="container" v-cloak>
     <div class="row">
-        <create-task></create-task>
-        <task-list></task-list>
-        <sidebar></sidebar>
+  	@if (Sentinel::check())
+		<create-task></create-task>
+		<task-list></task-list>
+		<sidebar></sidebar>
+	@else
+		<p>Please Log In</p>
+	@endif
     </div>
   </div>
 @stop

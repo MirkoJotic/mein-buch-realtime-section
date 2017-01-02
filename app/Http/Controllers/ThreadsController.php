@@ -75,7 +75,7 @@ class ThreadsController extends Controller
         /* Emmit Event */
         event(new \App\Events\NewMessage($message, $thread));
 
-        return response()->json($message);
+        return response()->json(['message'=>$message, 'thread'=>$thread]);
     }
 
     public function chatMarkMessagesAsRead ( Request $request )

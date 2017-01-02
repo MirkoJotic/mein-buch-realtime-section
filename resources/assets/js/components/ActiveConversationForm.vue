@@ -29,13 +29,15 @@
         return false
       },
       sendMessage() {
+        var content = this.content
+        this.content = ""
         var data = {
-          content: this.content,
+          content: content,
           thread_id: this.getCurrentConversation.id
         }
         this.$http.post('/chat/send/message', data).then(
           (response) => {
-            this.content = ""
+            this.$store.dispatch('addMessage', response.body )
             // success callback do nothing as updating message feed is done through socket
           },
           (response) => {

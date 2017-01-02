@@ -41,7 +41,9 @@ const mutations = {
     },
     ADD_MESSAGE_TO_CONVERSATION ( state, data ) {
       var conversation =  state.conversations.find( conversation => conversation.id === data.thread.id)
-      conversation.messages.push(data.message)
+      var message = conversation.messages.find( msg => msg.id == data.message.id )
+      if ( ! message )
+        conversation.messages.push(data.message)
     },
     ADD_CONVERSATION ( state, conversation ) {
       state.conversations.push(conversation);

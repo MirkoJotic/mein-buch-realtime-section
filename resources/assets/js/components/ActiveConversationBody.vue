@@ -48,6 +48,8 @@
         return this.$store.state.conversation_id
       },
       messages: function() {
+        console.log("In messages computed property of ActiveConversationBody --- log messages")
+        console.log(this.$store.getters.currentConversationMessages)
         return this.$store.getters.currentConversationMessages
       }
     }

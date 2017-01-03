@@ -22,6 +22,8 @@ const state = {
 const mutations = {
     TOGGLE_SIDEBAR ( state ) {
       state.show_sidebar = ! state.show_sidebar
+        state.show_conversation = false
+        state.conversation_id = null
     },
     SET_CONVERSATION_ID ( state, conversation_id ) {
       state.conversation_id = conversation_id

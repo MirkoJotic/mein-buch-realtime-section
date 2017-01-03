@@ -8,16 +8,19 @@
                 </div>
                 <div class="user-status">online</div>
             </div>
-        </div>
-        <active-conversation-add-people v-if="showAddPersonToConversation"></active-conversation-add-people>
-        <ul class="header-actions pull-left">
-            <li>
-                <a @click="toggleSidebar()">
-                    <i class="icon ion-ios-arrow-right"></i>
+            <div class="user-info pull-right">
+                <a class="close-chat" @click="toggleSidebar()">
+                    <i class="icon ion-android-close"></i>
                 </a>
-            </li>
-        </ul>
+            </div>
+        </div>
         <ul class="header-actions pull-right">
+            <li>
+                <a>
+                    <active-conversation-add-people v-if="showAddPersonToConversation"></active-conversation-add-people>
+                </a>
+
+            </li>
             <li>
                 <a @click="showAddPersonToConversation = ! showAddPersonToConversation">
                     <i class="icon ion-ios-personadd-outline"></i>
@@ -64,6 +67,7 @@
       }
     }
   }
+
 
 </script>
 

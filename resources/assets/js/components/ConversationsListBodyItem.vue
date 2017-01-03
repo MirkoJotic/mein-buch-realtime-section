@@ -1,5 +1,5 @@
-<template>
-    <div class="conversation-list-body-item" :style="{ color: bgClr }">
+<template xmlns:v-bind="http://www.w3.org/1999/xhtml">
+    <div class="conversation-list-body-item">
             <li @click="openConversation(thread.id)" class="contact offline">
                 <div class="task-title">
                     {{ thread.task ? thread.task.title : thread.type }}
@@ -15,15 +15,16 @@
                         <i class="icon ion-ios-clock-outline">{{ lastMessage.created_at }}</i>
                     </div>
                 </div>
-                <div class="pull-right">
-                    {{ unreadMessages !== 0 ? unreadMessages : '' }}
+                <div v-bind:class="{ active: addCls }" class="pull-right">
+
+                        {{ unreadMessages !== 0 ? unreadMessages : ''}}
+
                 </div>
             </li>
         </div>
 </template>
 
 <script>
-
 
 const socket = io('http://127.0.0.1:3000');
 
@@ -39,7 +40,7 @@ export default {
     props: ['thread'],
     data: function() {
         return {
-
+            addCls:true
         }
     },
     methods: {
@@ -82,9 +83,9 @@ export default {
             }
             return unreadMessagesCount
         },
-        bgClr: function() {
+        addCls: function() {
             if( this.unreadMessages > 0 )
-                return 'orange'
+                return 'unread-messages-container'
             return ''
         }
     }

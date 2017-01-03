@@ -1,8 +1,5 @@
 <template>
-  <div v-bind:class="{
-    'col-md-12': !isSidebarOpen,
-    'col-md-8': isSidebarOpen
-    }">
+  <div id="tasks" class="col-md-12">
     <div>
       <h4 align="center">Tasks</h4>
       <button @click="toggleSidebar()" class="btn btn-default">Toggle Sidebar</button>

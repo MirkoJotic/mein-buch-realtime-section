@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="/css/Ionicons/css/ionicons.css">
         <link rel="stylesheet" href="/css/font-awesome-4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/css/style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>

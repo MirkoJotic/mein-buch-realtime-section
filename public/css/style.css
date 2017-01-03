@@ -2,22 +2,19 @@
 
 /** SIDEBAR  START **/
 .sidebar {
-    -webkit-transition: all .3s ease;
-    -moz-transition: all .3s ease;
-    -o-transition: all .3s ease;
-    transition: all .3s ease;
-    right: 0;
-    bottom: 0;
-    height: 100vh;
     position: fixed;
-    background: url('../images/header-bg.jpg') repeat ;
-    background-size: 25%;
-    top: 0;
-    overflow: hidden;
-    color: #818181;
+    z-index: 1310;
+    max-width: 100%;
+    max-height: 100%;
+    -webkit-box-shadow: -5px 0 20px 0 rgba(66, 66, 66, .2);
+    box-shadow: -5px 0 20px 0 rgba(66, 66, 66, .2);
     width: 400px;
-    z-index: 9999;
-
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: url('../images/header-bg.jpg') repeat;
+    background-size: 25%;
+    transition: opacity 2s linear, height 2s step-start;
 }
 
 .sidebar .sidebar-header {
@@ -25,17 +22,18 @@
     -moz-transition: all .3s ease;
     -o-transition: all .3s ease;
     transition: all .3s ease;
-    height: 130px;
+    height: 110px;
     width: 100%;
-    background-color: #1c293d;
+    background: url('../images/bg3.jpg') repeat;
+    background-size: 100%;
 }
 
 .sidebar .sidebar-body {
-    position: relative
+    position: relative;
 }
 
 .sidebar .sidebar-header .header-user {
-    height: 75px
+    height: 65px
 }
 
 .sidebar .sidebar-header .header-user .user-avatar {
@@ -51,7 +49,18 @@
 
 .sidebar .sidebar-header .header-user .user-info {
     color: #fff;
-    padding: 13px
+    padding: 8px
+}
+
+.sidebar .sidebar-header .header-user .user-info .close-chat {
+    cursor: pointer;
+}
+
+.sidebar .sidebar-header .header-user .user-info .close-chat i {
+    font-size: 26px;
+    color: #ffffff;
+    padding-top: 8px;
+
 }
 
 .sidebar .sidebar-header .header-user .user-info .user-name {
@@ -77,16 +86,19 @@
 }
 
 .sidebar .sidebar-header .header-actions {
-    height: 50px;
+    height: 35px;
     list-style: none;
     margin: 0;
-    padding: 1px 5px
+    padding: 0;
+    max-width: 100%;
+    text-align: center;
+    margin-top: 5px;
 }
 
 .sidebar .sidebar-header .header-actions li {
     display: inline-block;
-    height: 50px;
-    padding: 10px
+    height: 35px;
+    padding-right: 59px
 }
 
 .sidebar .sidebar-header .header-actions li a {
@@ -99,7 +111,7 @@
 }
 
 .sidebar .sidebar-header .header-actions li a i {
-    font-size: 33px
+    font-size: 28px
 }
 
 .sidebar .sidebar-body .contacts-search {
@@ -175,23 +187,105 @@
 .sidebar .sidebar-body .contacts-list .contact {
     height: 121px;
     padding: 8px;
-    position: relative
+    margin: 8px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -webkit-box-shadow: inset 0px 0px 0px 4px #f1f1f1;
+    -moz-box-shadow: inset 0px 0px 0px 4px #f1f1f1;
+    box-shadow: inset 0px 0px 0px 4px #f1f1f1;
+    position: relative;
+    background: url(../images/bg-conversation.jpg) repeat;
+    background-size: 25%;
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, .3), 0px -1px 0px rgba(0, 0, 0, 0.2);
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    -webkit-transform-origin: 100% 0;
+    transform-origin: 100% 0;
 }
 
-.sidebar .sidebar-body .contacts-list .contact:hover {
-    background-color: #f3f3f3;
-    cursor: pointer
+/* Wobble Bottom */
+@-webkit-keyframes contact {
+    16.65% {
+        -webkit-transform: skew(-12deg);
+        transform: skew(-12deg);
+    }
+    33.3% {
+        -webkit-transform: skew(10deg);
+        transform: skew(10deg);
+    }
+    49.95% {
+        -webkit-transform: skew(-6deg);
+        transform: skew(-6deg);
+    }
+    66.6% {
+        -webkit-transform: skew(4deg);
+        transform: skew(4deg);
+    }
+    83.25% {
+        -webkit-transform: skew(-2deg);
+        transform: skew(-2deg);
+    }
+    100% {
+        -webkit-transform: skew(0);
+        transform: skew(0);
+    }
+}
+
+@keyframes contact {
+    16.65% {
+        -webkit-transform: skew(-12deg);
+        transform: skew(-12deg);
+    }
+    33.3% {
+        -webkit-transform: skew(10deg);
+        transform: skew(10deg);
+    }
+    49.95% {
+        -webkit-transform: skew(-6deg);
+        transform: skew(-6deg);
+    }
+    66.6% {
+        -webkit-transform: skew(4deg);
+        transform: skew(4deg);
+    }
+    83.25% {
+        -webkit-transform: skew(-2deg);
+        transform: skew(-2deg);
+    }
+    100% {
+        -webkit-transform: skew(0);
+        transform: skew(0);
+    }
+}
+
+.sidebar .sidebar-body .contacts-list .contact:hover, .sidebar .sidebar-body .contacts-list .contact:focus,
+.sidebar .sidebar-body .contacts-list .contact:active {
+    cursor: pointer;
+    -webkit-box-shadow: inset 0px 0px 0px 5px #EAEAEA;
+    -moz-box-shadow: inset 0px 0px 0px 5px #EAEAEA;
+    box-shadow: inset 0px 0px 0px 5px #EAEAEA;
+    background: url(../images/bg-conversation-hover.jpg) repeat;
+    background-size: 25%;
+    -webkit-animation-name: hvr-wobble-bottom;
+    animation-name: hvr-wobble-bottom;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+
 }
 
 .sidebar .sidebar-body .contacts-list .task-title {
     width: 100%;
-    color: #fff;
     text-transform: uppercase;
     font-weight: 500;
     color: #5f5f5f;
     font-family: 'Roboto', sans-serif, tahoma;
-    font-size: 17px;
-    padding: 5px 5px 5px 0px;
+    font-size: 14px;
+    padding: 5px 5px 0px 0px;
     margin-bottom: 3px;
     line-height: 20px;
 
@@ -200,8 +294,8 @@
 .sidebar .sidebar-body .contacts-list .task-title:before {
     font-family: Ionicons;
     left: 0;
-    font-size: 20px;
-    padding: 8px;
+    font-size: 18px;
+    padding: 5px;
     content: "\f36b";
 }
 
@@ -248,7 +342,7 @@
 }
 
 .sidebar .sidebar-body .contacts-list .contact .contact-info .contact-name {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 300;
     color: #5f5f5f;
     padding-bottom: 2px
@@ -256,13 +350,13 @@
 
 .sidebar .sidebar-body .contacts-list .contact .contact-info .contact-last-message {
     color: #777;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 300;
     padding-bottom: 2px
 }
 
 .sidebar .sidebar-body .contacts-list .contact .contact-info .contact-last-chat-time {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 300;
     color: #777;
     padding-bottom: 2px
@@ -271,21 +365,6 @@
 .sidebar .sidebar-body .contacts-list .contact .contact-info .contact-last-chat-time i {
     font-size: 11px;
     vertical-align: middle
-}
-
-.sidebar .header-user {
-    height: 75px
-}
-
-.sidebar .header-user .user-avatar {
-    -webkit-border-radius: 0px;
-    -webkit-background-clip: padding-box;
-    -moz-border-radius: 0px;
-    -moz-background-clip: padding;
-    border-radius: 0px;
-    background-clip: padding-box;
-    height: 50px;
-    margin: 12px 0 12px 12px;
 }
 
 .sidebar .header-user .user-info {
@@ -315,19 +394,6 @@
     border-left: 6px solid #f39c12
 }
 
-.sidebar .header-actions {
-    height: 50px;
-    list-style: none;
-    margin: 0;
-    padding: 1px 3px
-}
-
-.sidebar .header-actions li {
-    display: inline-block;
-    height: 50px;
-    padding: 10px
-}
-
 .sidebar .header-actions li a {
     color: #fff;
     display: inline-block
@@ -343,13 +409,13 @@
 
 .sidebar .messages-list {
     -lh-property: 0;
-    height: -webkit-calc(100vh - 125px);
-    height: -moz-calc(100vh - 135px);
-    height: calc(100vh - 135px);
+    height: -webkit-calc(100vh - 175px);
+    height: -moz-calc(100vh - 175px);
+    height: calc(100vh - 175px);
     list-style: none;
     overflow: auto;
     padding: 10px 0;
-    padding-bottom: 75px;
+    padding-bottom: 50px;
 }
 
 .sidebar .messages-list .message {
@@ -366,13 +432,16 @@
 
 .sidebar .messages-list .message .message-info .contact-name {
     font-weight: 400;
+    font-family: 'Roboto', sans-serif, tahoma;
     margin-left: 10px;
-    margin-right: 5px
+    margin-right: 5px;
+    font-size: 12px
 }
 
 .sidebar .messages-list .message .message-info .message-time {
     color: #999;
     float: right;
+    font-family: 'Roboto', sans-serif, tahoma;
     font-size: 9px;
     margin-right: 35px
 }
@@ -382,7 +451,7 @@
     -webkit-background-clip: padding-box;
     -moz-border-radius: 2px;
     -moz-background-clip: padding;
-    border-radius: 2px;
+    border-radius: 5px;
     background-clip: padding-box;
     background-color: #e5e5e5;
     font-size: 14px;
@@ -398,7 +467,7 @@
     border-style: solid;
     border-top-width: 0;
     border-width: 7px;
-    color: #fff;
+    color: transparent;
     content: '';
     display: block;
     height: 0;
@@ -438,11 +507,11 @@
     border-top: 1px solid #eee;
     bottom: 0px;
     height: 65px;
-    left: 0;
+
     padding: 15px;
-    position: absolute;
+    position: fixed;
     right: 0;
-    width: 100%
+    width: 400px
 }
 
 .append-icon {
@@ -479,5 +548,20 @@
     text-align: center;
     top: 0;
     width: 36px;
+}
+
+.active {
+    background: orange;
+    margin-top: 12px;
+    margin-right: 10px;
+    width: 27px;
+    height: 27px;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    color: #fff;
+    padding-top: 4px;
+    text-align: center;
+    vertical-align: middle;
 }
 

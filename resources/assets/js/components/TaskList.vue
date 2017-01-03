@@ -33,11 +33,9 @@
           openConversation: function(taskId) {
             this.$http.post('/chat/initiate/task', {task_id: taskId}).then(
               (response) => {
-                /*if(response.body.thread_exists == false)
+                if(response.body.thread_exists == false)
                   this.$store.dispatch('addConversation', response.body.thread )
 
-                this.$store.dispatch('setConversationId', response.body.thread.id)
-                this.$store.dispatch('openConversation')*/
                 this.$store.dispatch('setConversationId', response.body.thread.id)
                 this.$store.dispatch('openConversation')
 

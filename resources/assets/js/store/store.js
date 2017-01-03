@@ -48,7 +48,9 @@ const mutations = {
         conversation.messages.push(data.message)
     },
     ADD_CONVERSATION ( state, conversation ) {
-      state.conversations.push(conversation);
+      var conversation = state.conversations.find( c => c.id === conversation.id )
+      if ( ! conversation )
+        state.conversations.push(conversation);
     },
     REMOVE_CONVERSATION ( state, conversation ) {
       // TODO: below this store commented out there is a solution

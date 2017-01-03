@@ -43,14 +43,7 @@
             //this.$store.dispatch('openConversation', taskId)
           },
           handleNewConversation: function(data) {
-            if ( data.thread_exists )
-              this.$store.dispatch('addConversation', data.thread )
-
-            this.$store.dispatch('setConversationId', data.thread.id )
-            console.log("after setConversationId")
-            console.log(this.$store.getters.currentConversation)
-            console.log("should ^ be ^ conversation object")
-
+            this.$store.dispatch('addConversationAndSetAsActive', data.thread )
             this.$store.dispatch('openConversation')
           },
           toggleSidebar: function() {

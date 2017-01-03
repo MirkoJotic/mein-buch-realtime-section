@@ -29,7 +29,8 @@ class ThreadsController extends Controller
             $thread = new Thread(['task_id'=>$task->id]);
             $thread->save();
 
-            $thread->participants()->attach([$task->creator->id, $userInitiator->id]);
+            $thread->participants()->syncWithoutDetaching([$task->creator->id, $userInitiator->id]);
+
             $message = new Message([
                 'thread_id'=>$thread->id,
                 'user_id'=>$userInitiator->id,

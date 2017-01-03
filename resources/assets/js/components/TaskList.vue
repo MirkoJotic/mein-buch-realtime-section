@@ -33,12 +33,7 @@
           openConversation: function(taskId) {
             this.$http.post('/chat/initiate/task', {task_id: taskId}).then(
               (response) => {
-                if(response.body.thread_exists == false)
-                  this.$store.dispatch('addConversation', response.body.thread )
-
-                this.$store.dispatch('setConversationId', response.body.thread.id)
-                this.$store.dispatch('openConversation')
-
+                this.handleNewConversation(response.body)
               },
               (response) => {
                 console.log(response.status)
@@ -46,6 +41,17 @@
               }
             );
             //this.$store.dispatch('openConversation', taskId)
+          },
+          handleNewConversation: function(data) {
+            if ( data.thread_exists )
+              this.$store.dispatch('addConversation', data.thread )
+
+            this.$store.dispatch('setConversationId', data.thread.id )
+            console.log("after setConversationId")
+            console.log(this.$store.getters.currentConversation)
+            console.log("should ^ be ^ conversation object")
+
+            this.$store.dispatch('openConversation')
           },
           toggleSidebar: function() {
             this.$store.dispatch('toggleSidebar')

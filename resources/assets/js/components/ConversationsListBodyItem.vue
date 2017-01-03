@@ -2,7 +2,8 @@
     <div class="conversation-list-body-item">
             <li @click="openConversation(thread.id)" class="contact offline">
                 <div class="task-title">
-                    {{ thread.task ? thread.task.title : thread.type }}
+                    {{ thread.type }}
+                    <!--{{ thread.task ? thread.task.title : thread.type }}-->
                     </div>
                 <div class="contact-avatar">
                     <img src="/images/avatar.jpg">
@@ -47,7 +48,7 @@ export default {
         markMessageAsSeen()
         {
             this.$http.post('/chat/messages/read', { thread_id: this.thread.id }).then(
-                (response) => { console.log("All mesg for this thread.id = "+this.thread.id+" and current user have been read") },
+                (response) => {  },
                 (response) => { console.log(response.body) }
             )
             this.$store.dispatch('markAllMessagesAsSeen')

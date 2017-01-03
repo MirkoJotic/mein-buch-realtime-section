@@ -53,14 +53,26 @@
 
 
       participants: function() {
-          var participantsEmails = []
-          var participantsWithoutCurrentUser = this.$store.getters.currentConversation.participants.filter(function(participant){
+/*          var participantsWithoutCurrentUser = this.$store.getters.currentConversation.participants.filter(function(participant){
             return participant.email != this.$store.state.currentUser.email
             }.bind(this))
           $.each(participantsWithoutCurrentUser, function(index, participant){
             participantsEmails.push(participant.email)
             })
             return participantsEmails
+*/
+          var participantsEmails = []
+          var currentUserEmail = this.$store.state.currentUser.email
+          var participants = this.$store.getters.currentConversationParticipants
+          if ( participants.length == 0 )
+            return participantsEmails
+          var participantsWithoutCurrentUser = participants.filter(function(participant){
+            return participant.email != currentUserEmail
+          })
+          $.each(participantsWithoutCurrentUser, function(index, participant){
+            participantsEmails.push(participant.email)
+          })
+          return participantsEmails
       }
     }
   }

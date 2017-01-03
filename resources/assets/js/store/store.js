@@ -112,8 +112,19 @@ const getters = {
   currentConversation: state => {
     return state.conversations.find( conversation => conversation.id === state.conversation_id)
   },
+  currentConversationMessages: state => {
+    var cc = state.conversations.find( conversation => conversation.id === state.conversation_id)
+    if ( cc )
+      return cc.messages
+
+    return []
+  },
   currentConversationParticipants: state => {
-    return state.conversations.find( conversation => conversation.id === state.conversation_id).participants
+    var cc = state.conversations.find( conversation => conversation.id === state.conversation_id)
+    if ( cc )
+      return cc.participants
+
+    return []
   },
   conversations: state => {
     return state.conversations

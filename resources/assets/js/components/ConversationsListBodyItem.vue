@@ -2,8 +2,7 @@
     <div class="conversation-list-body-item">
             <li @click="openConversation(thread.id)" class="contact offline">
                 <div class="task-title">
-                    {{ thread.type }}
-                    <!--{{ thread.task ? thread.task.title : thread.type }}-->
+                    {{ thread.task ? thread.task.title : thread.type }}
                     </div>
                 <div class="contact-avatar">
                     <img src="/images/avatar.jpg">

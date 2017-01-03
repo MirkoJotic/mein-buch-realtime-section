@@ -36,12 +36,6 @@
 <script>
     export default {
         mounted() {
-//console.log("create-task-mounted");
-//console.log("mounted default newTodo value");
-//console.log(this.$store.getters.newTodo);
-//console.log("set new newTodo value = Vue JS");
-//this.$store.dispatch('testingAdd', 'Vue JS');
-//console.log(this.$store.getters.newTodo); 
         },
         data() {
           return {
@@ -53,10 +47,8 @@
         },
         methods: {
           validateForm: function() {
-            console.log("validate form");
           },
           submitForm: function() {
-          console.log('created')
             var data = {
               _token: $("#token").attr('content'),
               title: this.title,
@@ -65,7 +57,7 @@
             $.post("tasks/create", data).done(function(response){
               this.clearForm();
               this.visible = false;
-            }.bind(this));     
+            }.bind(this));
           },
           clearForm: function() {
             this.title = "";

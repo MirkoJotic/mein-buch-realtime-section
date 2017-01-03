@@ -1,28 +1,14 @@
 <template>
-    <div :class="{ 'sidebar': sidebarOpen}" v-show="sidebarOpen">
-
-        <transition
-                name="sidebar-transition"
-                enter-active-class="animated slideInRight"
-                leave-active-class="animated slideOutRight"
-        >
+    <transition name="slide-fade">
+        <div :class="{ 'sidebar': sidebarOpen}" v-show="sidebarOpen">
             <div v-show="sidebarOpen && ! conversationOpen">
                 <conversations-list></conversations-list>
             </div>
-        </transition>
-
-
-        <transition
-                name="sidebar-transition"
-                enter-active-class="animated slideInRight"
-                leave-active-class="animated slideOutRight"
-        >
-            <div v-if="conversationOpen" class="">
+            <div v-if="conversationOpen">
                 <active-conversation></active-conversation>
             </div>
-        </transition>
-
-    </div>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -62,4 +48,22 @@ export default {
         }
     }
 
+
+
 </script>
+
+<style scoped>
+    .slide-fade-enter-active {
+  transition: all .8s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-active {
+  transform: translateX(280px);
+ /* transform:translate3d(0%, 0px, 0px);*/
+  opacity: 0;
+}
+</style>
+
+

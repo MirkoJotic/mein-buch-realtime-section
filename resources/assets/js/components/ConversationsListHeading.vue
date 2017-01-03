@@ -7,18 +7,17 @@
                 <div class="user-name">{{ userEmail }}</div>
                 <div class="user-status">online <i class="fa fa-caret-down"></i></div>
             </div>
-        </div>
-        <ul class="header-actions pull-left">
-            <li id="action-collapse">
-                <a>
-                    <i class="icon ion-ios-arrow-right"></i>
+            <div class="user-info pull-right">
+                <a class="close-chat" @click="toggleSidebar()">
+                    <i class="icon ion-android-close"></i>
                 </a>
-            </li>
-        </ul>
+            </div>
+        </div>
         <ul class="header-actions pull-right">
             <li id="action-add">
                 <a>
                     <i class="icon ion-ios-chatbubble-outline"></i>
+
                 </a>
             </li>
             <li id="action-my-conversation">
@@ -45,6 +44,11 @@
 export default {
   mounted() {
   },
+  methods: {
+      toggleSidebar: function() {
+        this.$store.dispatch('openSidebar')
+      }
+    },
   computed: {
     userEmail: function () {
       return this.$store.state.currentUser.email;

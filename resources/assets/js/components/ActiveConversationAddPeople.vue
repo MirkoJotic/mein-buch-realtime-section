@@ -1,6 +1,6 @@
 <template>
   <div class="add-people-to-conversation-container">
-    <input type="text" list="people"
+    <input class="add-people" type="text" list="people"
             name="search"
             v-model="s"
             placeholder="Type First or Last name or Email..."

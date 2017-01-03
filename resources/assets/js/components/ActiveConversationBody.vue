@@ -2,7 +2,7 @@
 
     <div class="sidebar-body">
         <ul class="messages-list">
-            <li v-for="message in getCurrentConversation.messages"
+            <li v-for="message in messages"
                 :class="{ message: true, reply: isOtherThanCurrentUser(message) }"
             >
                 <div class="message-info">
@@ -47,8 +47,8 @@
       activeConversationId: function() {
         return this.$store.state.conversation_id
       },
-      getCurrentConversation: function() {
-        return this.$store.getters.currentConversation
+      messages: function() {
+        return this.$store.getters.currentConversationMessages
       }
     }
   }

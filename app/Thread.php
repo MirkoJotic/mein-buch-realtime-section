@@ -15,7 +15,7 @@ class Thread extends Model
         'unseenMessages',
     ];
 
-    protected $fillable = ['task_id'];
+    protected $fillable = ['task_id', 'type'];
 
     public static function taskMessagesParticipants($thread_id)
     {

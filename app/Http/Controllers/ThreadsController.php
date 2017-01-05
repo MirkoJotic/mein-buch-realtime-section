@@ -22,10 +22,8 @@ class ThreadsController extends Controller
         $userInitiator =  Sentinel::getUser();
 
         $thread = Thread::where('task_id', $task->id)->first();
-        $taskThreadExists = true;
         if ( $thread === null )
         {
-            $taskThreadExists = false;
             $thread = new Thread(['task_id'=>$task->id]);
             $thread->save();
 
@@ -42,9 +40,52 @@ class ThreadsController extends Controller
         }
         $thread = Thread::where('id', $thread->id)->first();
         foreach ($thread->participants as $key => $participant) {
-            event(new \App\Events\NewThread($thread, $participant, $taskThreadExists));
+            event(new \App\Events\NewThread($thread, $participant, false));
         }
         return response()->json(['thread_exists'=>$taskThreadExists, 'thread'=>$thread]);
+    }
+
+    public function chatInitiatePrivate ( Request $request )
+    {
+        $currentUser = Sentinel::getUser();
+        $otherUser = $request->get('user_id');
+        // 1. find all thread with these two users
+        $threads = Thread::whereHas('participants', function($q) use ($currentUser) {
+                                $q->where('user_id', '=', $currentUser->id);
+                            })->whereHas('participants', function($q) use ($otherUser) {
+                                $q->where('user_id', '=', $otherUser);
+                            })->where('type', 'private')->get();
+
+        // 2. if count is 0 then make a new convo with these to guys
+        if ( count($threads) == 0 ) {
+            $newThread = new Thread(['type' => 'private']);
+            $newThread->save();
+            $newThread->participants()->syncWithoutDetaching([$currentUser->id, $otherUser]);
+            $thread = Thread::where('id', $newThread->id)->first();
+            foreach ($thread->participants as $key => $participant) {
+                event(new \App\Events\NewThread($thread, $participant, false));
+            }
+            // TODO: event();
+            return response()->json($newThread);
+        }
+
+        // 3. Make sure there is only these two in participants
+        foreach ( $threads as $key => $thread ) {
+            /* query was supposed to select threads that as participants has
+             * currentUser and user with whom we are going to chat if there is more than 2 its
+             * a group conversation and we don't want it
+             */
+            if ($thread->participants->count() > 2) {
+                $threads->forget($key);
+            }
+        }
+        // 4. Make sure there is just one of them if true return only one
+        if ( count($threads) == 1 )
+            return response()->json($threads->first());
+
+        // 5. If more than one there is something wrong and LOG it
+        return response()->json("Something went wrong!", 404);
+
     }
 
     // TODO: protect and validate

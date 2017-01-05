@@ -11,9 +11,9 @@
                 <div class="contact-info">
                     <div v-html="participants(thread.participants)"></div>
 
-                    <div class="contact-last-message">{{ lastMessage.content }}</div>
+                    <div class="contact-last-message">{{ lastMessage ? lastMessage.content : '' }}</div>
                     <div class="contact-last-chat-time">
-                        <i class="icon ion-ios-clock-outline">{{ lastMessage.created_at }}</i>
+                        <i class="icon ion-ios-clock-outline">{{ lastMessage ? lastMessage.created_at : '' }}</i>
                     </div>
                 </div>
                 <div v-bind:class="{ active: addCls }" class="pull-right">

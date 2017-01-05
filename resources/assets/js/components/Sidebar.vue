@@ -4,8 +4,11 @@
             <div v-show="sidebarOpen && ! conversationOpen">
                 <conversations-list></conversations-list>
             </div>
-            <div v-if="conversationOpen">
+            <div v-if="conversationOpen && ! newConversationOpen">
                 <active-conversation></active-conversation>
+            </div>
+            <div v-if="newConversationOpen">
+                <create-new-conversation></create-new-conversation>
             </div>
         </div>
     </transition>
@@ -27,11 +30,9 @@ export default {
             openNewThreadSocket: function() {
                 console.log("Socket OPENED ln 43 Sidebar.vue")
                 socket.on("newthread."+this.$store.state.currentUser.id+":App\\Events\\NewThread", function(message) {
-                        console.log("Socket Msg receiv. ln 44 Sidebar.vue")
+                        console.log("Socket received NEW THREAD")
                         console.log(message)
-                        if(message.taskThreadExists == false)
-                          this.$store.dispatch('addConversation', message.thread )
-
+                        this.$store.dispatch('addConversation', message.thread )
                 }.bind(this))
             }
         },
@@ -44,6 +45,9 @@ export default {
           },
           conversations: function() {
             return this.$store.state.conversations
+          },
+          newConversationOpen: function() {
+            return this.$store.state.show_new_conversation
           }
         }
     }

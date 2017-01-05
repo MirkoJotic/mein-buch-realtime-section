@@ -6,10 +6,11 @@ Vue.use(Vuex);
 
 const state = {
     /* on/off if sidebar is opened */
-    show_sidebar: '',
+    show_sidebar: false,
     /* we can be either in all conversation mode or
      one conversation mode */
-    show_conversation: '',
+    show_conversation: false,
+    show_new_conversation: false,
     /* we can't be in coversation mode if there is no id*/
     conversation_id: null,
     conversations: [],
@@ -22,8 +23,11 @@ const state = {
 const mutations = {
     TOGGLE_SIDEBAR ( state ) {
       state.show_sidebar = ! state.show_sidebar
-        state.show_conversation = false
-        state.conversation_id = null
+      state.show_conversation = false
+      state.conversation_id = null
+    },
+    TOGGLE_NEW_CONVERSATION_COMPONENT ( state ) {
+      state.show_new_conversation = ! state.show_new_conversation
     },
     SET_CONVERSATION_ID ( state, conversation_id ) {
       state.conversation_id = conversation_id
@@ -74,6 +78,7 @@ const mutations = {
 
 const actions = {
     addConversation ( { commit }, conversation ) {
+      console.log("INSIDE STORE ACTION addConversation")
       console.log(conversation)
       commit ( 'ADD_CONVERSATION', conversation )
     },
@@ -109,6 +114,9 @@ const actions = {
     },
     addUnseenMessages ( {commit}, thread ) {
       commit ( 'ADD_UNSEEN_MESSAGES', thread )
+    },
+    toggleNewConversationComponent ( {commit} ) {
+      commit ( 'TOGGLE_NEW_CONVERSATION_COMPONENT' )
     }
 }
 

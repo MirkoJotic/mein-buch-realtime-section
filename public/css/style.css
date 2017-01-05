@@ -1,5 +1,18 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:100,100italic,300,300italic,400,400italic,500,500italic,700,700italic,900,900italic);
 
+body::-webkit-scrollbar {
+    width: 5px;
+}
+
+body::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+}
+
 /** SIDEBAR  START **/
 .sidebar {
     position: fixed;
@@ -29,7 +42,7 @@
 }
 
 .sidebar .sidebar-body {
-    position: relative;
+
 }
 
 .sidebar .sidebar-header .header-user {
@@ -179,21 +192,42 @@
 
 .sidebar .sidebar-body .contacts-list {
     list-style: none;
-    margin: 0;
+    margin-left: 3px;
+    padding: 5px 10px;
+    width: auto;
+    height: auto;
+    top: 156px;
+    position: absolute;
     overflow: auto;
-    padding: 0
+    bottom: 0;
+}
+
+.sidebar .sidebar-body .contacts-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar .sidebar-body .contacts-list::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar .sidebar-body .contacts-list::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
 }
 
 .sidebar .sidebar-body .contacts-list .contact {
     height: 121px;
     padding: 8px;
-    margin: 8px;
+    margin: 3px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
     -webkit-box-sizing: border-box;
-    -webkit-box-shadow: inset 0px 0px 0px 4px #f1f1f1;
-    -moz-box-shadow: inset 0px 0px 0px 4px #f1f1f1;
-    box-shadow: inset 0px 0px 0px 4px #f1f1f1;
+    -webkit-box-shadow: inset 0px 0px 0px 4px rgba(235, 235, 235, 0.42);
+    -moz-box-shadow: inset 0px 0px 0px 4px rgba(235, 235, 235, 0.42);
+    box-shadow: inset 0px 0px 0px 4px rgba(235, 235, 235, 0.42);
     position: relative;
     background: url(../images/bg-conversation.jpg) repeat;
     background-size: 25%;
@@ -279,7 +313,7 @@
 }
 
 .sidebar .sidebar-body .contacts-list .task-title {
-    width: 100%;
+    width: 350px;
     text-transform: uppercase;
     font-weight: 500;
     color: #5f5f5f;
@@ -352,7 +386,11 @@
     color: #777;
     font-size: 13px;
     font-weight: 300;
-    padding-bottom: 2px
+    padding-bottom: 2px;
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .sidebar .sidebar-body .contacts-list .contact .contact-info .contact-last-chat-time {
@@ -414,8 +452,22 @@
     height: calc(100vh - 175px);
     list-style: none;
     overflow: auto;
+    z-index: 90;
     padding: 10px 0;
     padding-bottom: 50px;
+}
+
+.sidebar .messages-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar .messages-list::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar .messages-list::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
 }
 
 .sidebar .messages-list .message {
@@ -550,18 +602,171 @@
     width: 36px;
 }
 
-.active {
-    background: orange;
+.read-messages {
+    margin-top: 16px;
+}
+
+.read-messages:after {
+    font-family: Ionicons;
     margin-top: 12px;
     margin-right: 10px;
     width: 27px;
+    font-size: 18px;
     height: 27px;
-    -moz-border-radius: 50px;
-    -webkit-border-radius: 50px;
-    border-radius: 50px;
-    color: #fff;
-    padding-top: 4px;
+    content: "\f3fe";
+    padding-top: 20px;
     text-align: center;
     vertical-align: middle;
 }
 
+.active {
+    background: orange;
+    margin-top: 12px;
+    margin-right: 10px;
+    width: 25px;
+    height: 25px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    color: #fff;
+    line-height: 18px;
+    padding-top: 4px;
+    text-align: center;
+    vertical-align: middle;
+    padding-left: 1px;
+}
+
+.active:after {
+    content: normal;
+}
+
+.active:before {
+    content: normal;
+}
+
+/* SEARCH BOX = ADD NEW PERSON TO CONVERSATION */
+.add-people-to-conversation-container {
+    position: absolute;
+    top: 110px;
+    width: 400px;
+    z-index: 100;
+    -webkit-transition: all .8s ease;
+    -moz-transition: all .8s ease;
+    -o-transition: all .8s ease;
+    transition: all .8s ease;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+}
+
+.fade-enter, .fade-leave-active {
+    opacity: 0
+}
+
+.add-people-to-conversation-container input {
+    width: 100%;
+    padding: 9px;
+    font-size: 14px;
+    background-color: #fff;
+    border: 1px solid #fff;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.add-people-to-conversation-container input:focus {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    outline: 0
+}
+
+.add-people-to-conversation-container input::-webkit-input-placeholder {
+    font-family: 'Roboto', sans-serif, tahoma;
+    font-size: 15px;
+    font-weight: 300
+}
+
+.add-people-to-conversation-container input::-moz-placeholder {
+    font-family: 'Roboto', sans-serif, tahoma;
+    font-size: 15px;
+    font-weight: 300
+}
+
+.add-people-to-conversation-container input:-moz-placeholder {
+    font-family: 'Roboto', sans-serif, tahoma;
+    font-size: 15px;
+    font-weight: 300
+}
+
+.add-people-to-conversation-container input:-ms-input-placeholder {
+    font-family: 'Roboto', sans-serif, tahoma;
+    font-size: 15px;
+    font-weight: 300
+}
+
+.add-people-to-conversation-container. .addPeopleAutocompleteList {
+    width: inherit;
+    display: none;
+}
+
+.addPeopleAutocompleteList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: inherit;
+    position: absolute;
+    z-index: 100;
+    border:none;
+    background: #fff;
+    -moz-box-shadow: 0 4px 4px rgba(66, 66, 66, .2);
+    -webkit-box-shadow: 0 4px 4px rgba(66, 66, 66, .2);
+    box-shadow: 0 4px 4px rgba(66, 66, 66, .2);
+}
+
+.addPeopleAutocompleteListItems .contact-avatar {
+    -webkit-border-radius: 0px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 0px;
+    -moz-background-clip: padding;
+    border-radius: 0px;
+    background-clip: padding-box;
+    display: inline-block;
+    height: 55px;
+    margin-left: 30px;
+    width: 55px
+}
+
+.addPeopleAutocompleteList .addPeopleAutocompleteListItems {
+    cursor: pointer;
+    background-color: white;
+    padding: 10px;
+    border:none;
+
+}
+
+.addPeopleAutocompleteList .addPeopleAutocompleteListItems:hover {
+
+    background-color: #f3f3f3;
+    cursor: pointer;
+}
+
+.addPeopleAutocompleteListItems .contact-avatar img {
+    -webkit-border-radius: 0px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 0px;
+    -moz-background-clip: padding;
+    border-radius: 0px;
+    background-clip: padding-box;
+    height: 55px;
+    width: 55px
+}
+
+.addPeopleAutocompleteListItems .user-name {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 15px;
+    font-weight: 300;
+    color: #5f5f5f;
+    padding-bottom: 2px;
+
+}

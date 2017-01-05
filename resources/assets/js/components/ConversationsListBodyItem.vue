@@ -1,29 +1,26 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div class="conversation-list-body-item">
-            <li @click="openConversation(thread.id)" class="contact offline">
-                <div class="task-title">
-                    {{ thread.task ? thread.task.title : thread.type }}
-                    </div>
-                <div class="contact-avatar">
-                    <img src="/images/avatar.jpg">
-                </div>
-                <div class="contact-info">
-                    <div v-html="participants(thread.participants)"></div>
+        <li @click="openConversation(thread.id)" class="contact offline">
+            <div class="task-title">
+                {{ thread.task ? thread.task.title : thread.type }}
+            </div>
+            <div class="contact-avatar">
+                <img src="/images/avatar.jpg">
+            </div>
+            <div class="contact-info">
+                <div v-html="participants(thread.participants)"></div>
 
-                    <div class="contact-last-message">{{ lastMessage.content }}</div>
-                    <div class="contact-last-chat-time">
-                        <i class="icon ion-ios-clock-outline">{{ lastMessage.created_at }}</i>
-                    </div>
+                <div class="contact-last-message">{{ lastMessage.content }}</div>
+                <div class="contact-last-chat-time">
+                    <i class="icon ion-ios-clock-outline">{{ lastMessage.created_at }}</i>
                 </div>
-                <div v-bind:class="{ active: addCls }" class="pull-right">
-
-                        {{ unreadMessages !== 0 ? unreadMessages : ''}}
-
-                </div>
-            </li>
-        </div>
+            </div>
+            <div v-bind:class="{ active: addCls }" class="pull-right read-messages">
+                {{ unreadMessages !== 0 ? unreadMessages : ''}}
+            </div>
+        </li>
+    </div>
 </template>
-
 <script>
 
 const socket = io('http://127.0.0.1:3000');
@@ -35,15 +32,22 @@ export default {
             this.$store.dispatch('addUnseenMessages', message.thread)
             if( this.$store.state.show_conversation && this.$store.state.conversation_id !== null )
                 this.markMessageAsSeen()
+
+            this.scrollToEnd()
         }.bind(this))
     },
     props: ['thread'],
     data: function() {
         return {
-            addCls:true
+            active:true
         }
     },
     methods: {
+         scrollToEnd: function() {
+
+         $("#conversation-area").animate({ scrollTop: $('#conversation-area').prop("scrollHeight")}, 1000);
+
+          },
         markMessageAsSeen()
         {
             this.$http.post('/chat/messages/read', { thread_id: this.thread.id }).then(
@@ -72,8 +76,12 @@ export default {
         }
     },
     computed: {
+
         lastMessage: function() {
-            return this.thread.messages[this.thread.messages.length - 1]
+
+              return this.thread.messages[this.thread.messages.length - 1]
+
+
         },
         unreadMessages: function() {
             var unreadMessagesCount = 0;
@@ -90,4 +98,7 @@ export default {
         }
     }
 }
+
+
+
 </script>

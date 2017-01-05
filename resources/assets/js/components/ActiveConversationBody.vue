@@ -1,7 +1,7 @@
 <template>
 
-    <div class="sidebar-body">
-        <ul class="messages-list">
+    <div  class="sidebar-body">
+        <ul id="conversation-area" class="messages-list">
             <li v-for="message in messages"
                 :class="{ message: true, reply: isOtherThanCurrentUser(message) }"
             >
@@ -33,6 +33,7 @@
       }
     },
     methods: {
+
       isOtherThanCurrentUser: function(message) {
         return this.currentUserId != message.user_id
       },

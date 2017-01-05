@@ -8,3 +8,4 @@ Homestead.yaml
 .htaccess
 /public/js/app.js
 /public/css/app.css.map
+/stats

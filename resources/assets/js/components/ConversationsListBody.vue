@@ -4,7 +4,7 @@
             <input type="text" class="searchinput" placeholder="Search Members">
             <i class="searchicon icon ion-ios-search"></i>
         </div>
-        <ul class="contacts-list" style="overflow: hidden; width: auto; height: 482px;">
+        <ul class="contacts-list">
             <div v-for="thread in threads">
                 <conversations-list-body-item :thread="thread"></conversations-list-body-item>
             </div>

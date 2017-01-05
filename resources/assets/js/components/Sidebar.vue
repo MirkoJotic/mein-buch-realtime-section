@@ -30,9 +30,9 @@ export default {
             openNewThreadSocket: function() {
                 console.log("Socket OPENED ln 43 Sidebar.vue")
                 socket.on("newthread."+this.$store.state.currentUser.id+":App\\Events\\NewThread", function(message) {
-                        console.log("Socket received NEW THREAD")
-                        console.log(message)
-                        this.$store.dispatch('addConversation', message.thread )
+                   console.log("Socket received NEW THREAD")
+                   console.log(message)
+                   this.$store.dispatch('addConversation', message.thread )
                 }.bind(this))
             }
         },

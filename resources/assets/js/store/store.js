@@ -52,9 +52,16 @@ const mutations = {
         conversation.messages.push(data.message)
     },
     ADD_CONVERSATION ( state, conversation ) {
-      var conversation = state.conversations.find( c => c.id === conversation.id )
-      if ( ! conversation )
+      var localConversation = state.conversations.find( c => c.id === conversation.id )
+      if ( ! localConversation )
         state.conversations.push(conversation);
+    },
+    ADD_CONVERSATION_AND_SET_AS_ACTIVE ( state, conversation ) {
+      var localConversation = state.conversations.find( c => c.id === conversation.id )
+      if ( ! localConversation )
+        state.conversations.push(conversation);
+
+      state.conversation_id = conversation.id
     },
     REMOVE_CONVERSATION ( state, conversation ) {
       // TODO: below this store commented out there is a solution
@@ -81,6 +88,9 @@ const actions = {
       console.log("INSIDE STORE ACTION addConversation")
       console.log(conversation)
       commit ( 'ADD_CONVERSATION', conversation )
+    },
+    addConversationAndSetAsActive ( { commit }, conversation ) {
+      commit ( 'ADD_CONVERSATION_AND_SET_AS_ACTIVE', conversation )
     },
     openSidebar ( {commit} ) {
       commit ( 'TOGGLE_SIDEBAR' )

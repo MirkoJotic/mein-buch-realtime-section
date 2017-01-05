@@ -14,13 +14,10 @@
                 </a>
             </div>
         </div>
-        <ul class="header-actions pull-right">
-            <li>
-                <a>
-                    <active-conversation-add-people v-if="showAddPersonToConversation"></active-conversation-add-people>
-                </a>
 
-            </li>
+        <active-conversation-add-people v-if="showAddPersonToConversation"></active-conversation-add-people>
+
+        <ul class="header-actions pull-right">
             <li>
                 <a @click="showAddPersonToConversation = ! showAddPersonToConversation">
                     <i class="icon ion-ios-personadd-outline"></i>

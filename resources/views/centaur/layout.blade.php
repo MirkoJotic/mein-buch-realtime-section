@@ -74,5 +74,6 @@
       <script src="{{ asset('restfulizer.js') }}"></script>
       <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
       <script src="/js/app.js"></script>
+
     </body>
 </html>

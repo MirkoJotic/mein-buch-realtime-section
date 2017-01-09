@@ -63,11 +63,14 @@ const mutations = {
 
       state.conversation_id = conversation.id
     },
-    REMOVE_CONVERSATION ( state, conversation ) {
-      // TODO: below this store commented out there is a solution
-    },
-    ARCHIVE_CONVERSATION ( state, conversation ) {
-      // TODO
+    ADD_CONVERSATION_AFTER_PRIVATE_CONVERSATION_STARTED ( state, conversation ) {
+      var localConversation = state.conversations.find( c => c.id === conversation.id )
+      if ( ! localConversation )
+        state.conversations.push(conversation);
+
+      state.conversation_id = conversation.id
+      state.show_new_conversation = false
+      state.show_conversation = true
     },
     ADD_USER_TO_CURRENT_CONVERSATION ( state, data ) {
       var conversation =  state.conversations.find( conversation => conversation.id === data.thread)
@@ -85,8 +88,6 @@ const mutations = {
 
 const actions = {
     addConversation ( { commit }, conversation ) {
-      console.log("INSIDE STORE ACTION addConversation")
-      console.log(conversation)
       commit ( 'ADD_CONVERSATION', conversation )
     },
     addConversationAndSetAsActive ( { commit }, conversation ) {
@@ -127,6 +128,9 @@ const actions = {
     },
     toggleNewConversationComponent ( {commit} ) {
       commit ( 'TOGGLE_NEW_CONVERSATION_COMPONENT' )
+    },
+    addConversationAfterPrivateConversationStarted ( { commit }, conversation ) {
+      commit ( 'ADD_CONVERSATION_AFTER_PRIVATE_CONVERSATION_STARTED', conversation )
     }
 }
 

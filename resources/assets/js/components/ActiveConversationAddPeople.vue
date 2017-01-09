@@ -9,7 +9,7 @@
             >
             <ul class="addPeopleAutocompleteList" v-show="s.length > 0">
                 <li v-for="person in people"
-                    @click="addPersonToConversation(person.id)"
+                    @click="handle(person.id)"
                     class="addPeopleAutocompleteListItems"
                 >
                     <div class="contact-avatar">
@@ -33,7 +33,7 @@
       return {
         s: "",
         timer: 0,
-        people: [1]
+        people: []
       }
     },
     methods: {
@@ -51,12 +51,16 @@
           }
         ).bind(this);
       },
-      addPersonToConversation(uid) {
-        var data = {
-          uid: uid,
-          thread_id: this.$store.state.conversation_id
+      handle(uid) {
+        if ( this.$store.state.show_new_conversation ) {
+          this.createNewConversation( uid )
+        } else {
+          var formData = { uid: uid, thread_id: this.$store.state.conversation_id }
+          this.addToConversation( formData )
         }
-        this.$http.post('/chat/users/add', data).then(
+      },
+      addToConversation(formData) {
+        this.$http.post('/chat/users/add', formData).then(
           (response) => {
             this.$store.dispatch('addUserToCurrentConversation', response.body)
             this.s = ""
@@ -65,6 +69,16 @@
             console.log( "HANDLE addToConversation ERROR" )
           }
         ).bind(this)
+      },
+      createNewConversation(uid) {
+        this.$http.post('/chat/initiate/private', {user_id: uid}).then(
+          (response) => {
+            this.$store.dispatch('addConversationAfterPrivateConversationStarted', response.body)
+          },
+          (response) => {
+            console.log("HANDLE populatePeopleList ERROR")
+          }
+        ).bind(this);
       }
 
     }

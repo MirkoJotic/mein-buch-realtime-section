@@ -43,7 +43,7 @@
             //this.$store.dispatch('openConversation', taskId)
           },
           handleNewConversation: function(data) {
-            this.$store.dispatch('addConversationAndSetAsActive', data.thread )
+            this.$store.dispatch('addConversationAndSetAsActive', data )
             this.$store.dispatch('openConversation')
           },
           toggleSidebar: function() {

@@ -1,7 +1,7 @@
 <template>
     <transition name="slide-fade">
         <div :class="{ 'sidebar': sidebarOpen}" v-show="sidebarOpen">
-            <div v-show="sidebarOpen && ! conversationOpen">
+            <div v-show="sidebarOpen && ! conversationOpen && ! newConversationOpen">
                 <conversations-list></conversations-list>
             </div>
             <div v-if="conversationOpen && ! newConversationOpen">

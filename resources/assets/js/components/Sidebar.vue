@@ -1,11 +1,14 @@
 <template>
     <transition name="slide-fade">
         <div :class="{ 'sidebar': sidebarOpen}" v-show="sidebarOpen">
-            <div v-show="sidebarOpen && ! conversationOpen">
+            <div v-show="sidebarOpen && ! conversationOpen && ! newConversationOpen">
                 <conversations-list></conversations-list>
             </div>
-            <div v-if="conversationOpen">
+            <div v-if="conversationOpen && ! newConversationOpen">
                 <active-conversation></active-conversation>
+            </div>
+            <div v-if="newConversationOpen">
+                <create-new-conversation></create-new-conversation>
             </div>
         </div>
     </transition>
@@ -27,7 +30,9 @@ export default {
             openNewThreadSocket: function() {
                 console.log("Socket OPENED ln 43 Sidebar.vue")
                 socket.on("newthread."+this.$store.state.currentUser.id+":App\\Events\\NewThread", function(message) {
-                      this.$store.dispatch('addConversation', message.thread )
+                   console.log("Socket received NEW THREAD")
+                   console.log(message)
+                   this.$store.dispatch('addConversation', message.thread )
                 }.bind(this))
             }
         },
@@ -40,6 +45,9 @@ export default {
           },
           conversations: function() {
             return this.$store.state.conversations
+          },
+          newConversationOpen: function() {
+            return this.$store.state.show_new_conversation
           }
         }
     }

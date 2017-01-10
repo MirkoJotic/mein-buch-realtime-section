@@ -14,9 +14,9 @@ class User extends SentinelUser
     {
         return self::whereNotIn('id', $usersInConversation)
                     ->where('email', 'LIKE', "%$search%")
-                    ->orWhere('first_name', 'LIKE', "%$search%")
-                    ->orWhere('last_name', 'LIKE', "%$search%")
-                    ->limit(15)
+                    /*->orWhere('first_name', 'LIKE', "%$search%")
+                    ->orWhere('last_name', 'LIKE', "%$search%")*/
+                    ->limit(5)
                     ->get();
     }
 

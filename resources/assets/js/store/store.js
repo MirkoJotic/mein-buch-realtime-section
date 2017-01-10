@@ -6,10 +6,12 @@ Vue.use(Vuex);
 
 const state = {
     /* on/off if sidebar is opened */
-    show_sidebar: '',
+    show_sidebar: false,
     /* we can be either in all conversation mode or
      one conversation mode */
-    show_conversation: '',
+    show_conversation: false,
+    /* flag to show window to create new conversation */
+    show_new_conversation: false,
     /* we can't be in coversation mode if there is no id*/
     conversation_id: null,
     conversations: [],
@@ -22,8 +24,11 @@ const state = {
 const mutations = {
     TOGGLE_SIDEBAR ( state ) {
       state.show_sidebar = ! state.show_sidebar
-        state.show_conversation = false
-        state.conversation_id = null
+      state.show_conversation = false
+      state.conversation_id = null
+    },
+    TOGGLE_NEW_CONVERSATION_COMPONENT ( state ) {
+      state.show_new_conversation = ! state.show_new_conversation
     },
     SET_CONVERSATION_ID ( state, conversation_id ) {
       state.conversation_id = conversation_id
@@ -59,15 +64,24 @@ const mutations = {
 
       state.conversation_id = conversation.id
     },
-    REMOVE_CONVERSATION ( state, conversation ) {
-      // TODO: below this store commented out there is a solution
-    },
-    ARCHIVE_CONVERSATION ( state, conversation ) {
-      // TODO
+    ADD_CONVERSATION_AFTER_PRIVATE_CONVERSATION_STARTED ( state, conversation ) {
+      var localConversation = state.conversations.find( c => c.id === conversation.id )
+      if ( ! localConversation ) {
+        state.conversations.push(conversation)
+      } else {
+        for (var i = conversation.participants.length - 1; i >= 0; i--) {
+          if ( ! localConversation.participants.find( p => p.id === conversation.participants[i].id ) ) {
+            localConversation.participants.push(conversation.participants[i])
+          }
+        }
+      }
+      state.conversation_id = conversation.id
+      state.show_new_conversation = false
+      state.show_conversation = true
     },
     ADD_USER_TO_CURRENT_CONVERSATION ( state, data ) {
-      var conversation =  state.conversations.find( conversation => conversation.id === data.thread)
-      conversation.participants.push(data.user)
+      var conversation =  state.conversations.find( conversation => conversation.id === data.id)
+      conversation.participants = data.participants
     },
     MARK_ALL_MESSAGES_AS_SEEN ( state ) {
       var unseen = state.conversations.find( c => c.id === state.conversation_id ).unseen_messages
@@ -118,6 +132,12 @@ const actions = {
     },
     addUnseenMessages ( {commit}, thread ) {
       commit ( 'ADD_UNSEEN_MESSAGES', thread )
+    },
+    toggleNewConversationComponent ( {commit} ) {
+      commit ( 'TOGGLE_NEW_CONVERSATION_COMPONENT' )
+    },
+    addConversationAfterPrivateConversationStarted ( { commit }, conversation ) {
+      commit ( 'ADD_CONVERSATION_AFTER_PRIVATE_CONVERSATION_STARTED', conversation )
     }
 }
 

@@ -11,40 +11,68 @@ use App\Message;
 use App\MessageSeenStatus;
 use Sentinel;
 
+use App\Helpers\ThreadHelper;
+
 class ThreadsController extends Controller
 {
 
-    /* add validation startThreadFromTask */
     public function chatInitiateTask ( Request $request )
     {
-        // TODO: add middleware to validate and forbid
+        $this->validate($request, [ 'task_id' => 'required|numeric',]);
+        // 1. Find thread by task
         $task = Task::where('id', $request->get('task_id'))->with('creator')->first();
-        $userInitiator =  Sentinel::getUser();
+        $currentUser =  Sentinel::getUser();
+        $threads = Thread::getTaskThreads($currentUser, $task);
 
-        $thread = Thread::where('task_id', $task->id)->first();
-        $taskThreadExists = true;
-        if ( $thread === null )
+        $thread_count = count($threads);
+        // 2. Remove threads with more than 2 participants
+        foreach ( $threads as $key => $thread ) {
+            if ($thread->participants->count() > 2) {
+                $threads->forget($key);
+            }
+        }
+        // 3. If there is one thread left that's the one we need
+        if ( $thread_count == 1 )
+            return response()->json($threads->first());
+        // 4. If there is 0 threads we'll just make a new one
+        if ( $thread_count == 0 )
         {
-            $taskThreadExists = false;
-            $thread = new Thread(['task_id'=>$task->id]);
-            $thread->save();
-
-            $thread->participants()->syncWithoutDetaching([$task->creator->id, $userInitiator->id]);
-
-            $message = new Message([
-                'thread_id'=>$thread->id,
-                'user_id'=>$userInitiator->id,
-                'content'=>'Hi I would like to chat'
-            ]);
-            $message->save();
-            $messageStatus = new MessageSeenStatus(['thread_id'=>$thread->id,'user_id'=>$task->creator->id, 'message_id'=>$message->id]);
-            $messageStatus->save();
+            $helper = new ThreadHelper('task', $currentUser, $task->creator, [], $task);
+            $thread = $helper->createNewThread();
+            return response()->json($thread);
         }
-        $thread = Thread::where('id', $thread->id)->first();
-        foreach ($thread->participants as $key => $participant) {
-            event(new \App\Events\NewThread($thread, $participant, $taskThreadExists));
+        // LOG HERE as this is a weird sitch
+        return response()->json('Something went wrong. More than 1 thread with 2 same users', 404);
+
+    }
+
+    public function chatInitiatePrivate ( Request $request )
+    {
+        $this->validate($request, [ 'user_id' => 'required|numeric',]);
+        $currentUser = Sentinel::getUser();
+        $otherUser = User::find($request->get('user_id'));
+        // 1. find all thread with these two users
+        $threads = Thread::getPrivateThreads($currentUser, $otherUser);
+        $thread_count = count($threads);
+
+        // 3. Make sure there is only these two in participants
+        foreach ( $threads as $key => $thread ) {
+            if ( count($thread->participants) > 2 ) {
+                $threads->forget($key);
+            }
         }
-        return response()->json(['thread_exists'=>$taskThreadExists, 'thread'=>$thread]);
+        // 4. Make sure there is just one of them if true return only one
+        if ( $thread_count == 1 )
+            return response()->json($threads->first());
+
+        if ( $thread_count == 0 ) {
+            $helper = new ThreadHelper('private', $currentUser, $otherUser);
+            $thread = $helper->createNewThread();
+            return response()->json($thread);
+        }
+        // 5. If more than one there is something wrong and LOG it
+        return response()->json("Something went wrong! More than 2 threads for 2 users.", 404);
+
     }
 
     // TODO: protect and validate
@@ -58,6 +86,7 @@ class ThreadsController extends Controller
     // TODO: protect and validate
     public function chatSendMessage ( Request $request )
     {
+        $this->validate($request, ['thread_id' => 'required|numeric','content'=>'required|max:1000']);
         $thread = Thread::with('participants')->find($request->get('thread_id'));
         $user = Sentinel::getUser();
         $message = new Message([
@@ -73,6 +102,7 @@ class ThreadsController extends Controller
             }
         }
         $message = Message::messageWithUser($message->id);
+        // TODO: Look into sending only $message but with('thread')
         /* Emmit Event */
         event(new \App\Events\NewMessage($message, $thread));
 
@@ -83,29 +113,34 @@ class ThreadsController extends Controller
     {
         $messagesStatus = MessageSeenStatus::where('thread_id', $request->get('thread_id'))
                                            ->where('user_id', Sentinel::getUser()->id)
-                                           ->get();
-        foreach ($messagesStatus as $status) {
-            $status->delete();
-        }
+                                           ->delete();
         return response()->json(true);
     }
 
-    // TODO: add validation
     public function chatUsersList ( Request $request )
     {
-        // Add existent users to array
+        // Add existent users to array so we can exclude them from drop list
         $users = User::populateUserList($request->get('s'), [Sentinel::getUser()->id]);
         return response()->json($users);
     }
 
     public function chatUsersAdd ( Request $request )
     {
-        // BAN IF ALREADY EXISTS
+        $this->validate($request, ['thread_id' => 'required|numeric','uid'=>'required|numeric']);
         $thread = Thread::find($request->get('thread_id'));
-        $thread->participants()->attach($request->get('uid'));
-        // Emitt thread as event
-        event();
-        return response()->json(['thread'=>$thread->id, 'user'=>User::find($request->get('uid'))]);
+        $currentUser = Sentinel::getUser();
+        $otherUser = User::find($request->get('uid'));
+        // TODO Consult and handle group TASK chat
+        if ( count( $thread->participants ) == 2 ) {
+            $helper = new ThreadHelper('group', $currentUser, $otherUser, $thread->participants);
+            $thread = $helper->createNewThread();
+            return response()->json($thread);
+        }
+
+        $thread->participants()->syncWithoutDetaching([$otherUser->id]);
+        event(new \App\Events\NewThread($thread, $otherUser));
+        $thread = Thread::where('id', $thread->id)->first();
+        return response()->json($thread);
     }
 
 }

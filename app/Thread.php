@@ -15,18 +15,26 @@ class Thread extends Model
         'unseenMessages',
     ];
 
-    protected $fillable = ['task_id'];
+    protected $fillable = ['task_id', 'type'];
 
-    public static function taskMessagesParticipants($thread_id)
-    {
-        return self::where('id', $thread_id)
-                    ->with('task')
-                    ->with('task.creator')
-                    ->with('participants')
-                    ->with('messages')
-                    ->with('messages.user')
-                    ->first();
+    public static function getTaskThreads($currentUser, $task) {
+        return self::whereHas('participants', function($q) use ($currentUser) {
+                                $q->where('user_id', '=', $currentUser->id);
+                            })->whereHas('participants', function($q) use ($task) {
+                                $q->where('user_id', '=', $task->creator->id);
+                            })->where('type', 'task')
+                              ->where('task_id', $task->id)
+                              ->get();
     }
+
+    public static function getPrivateThreads($currentUser, $otherUser) {
+        return self::whereHas('participants', function($q) use ($currentUser) {
+                                $q->where('user_id', '=', $currentUser->id);
+                            })->whereHas('participants', function($q) use ($otherUser) {
+                                $q->where('user_id', '=', $otherUser->id);
+                            })->where('type', 'private')->get();
+    }
+
 
     public function unseenMessages()
     {

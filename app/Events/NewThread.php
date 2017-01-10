@@ -14,7 +14,6 @@ class NewThread implements ShouldBroadcast
     use InteractsWithSockets, SerializesModels;
 
     public $thread;
-    public $taskThreadExists;
     public $user;
 
     /**
@@ -22,10 +21,9 @@ class NewThread implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($thread, $user, $taskThreadExists = false)
+    public function __construct(\App\Thread $thread, \App\User $user)
     {
         $this->thread = $thread;
-        $this->taskThreadExists = $taskThreadExists;
         $this->user = $user;
     }
 

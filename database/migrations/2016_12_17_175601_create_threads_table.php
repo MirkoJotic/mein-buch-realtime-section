@@ -16,7 +16,7 @@ class CreateThreadsTable extends Migration
         Schema::create('threads', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('task_id')->nullable()->unsigned();
-            $table->enum('type', ['negotiations', 'private', 'task'])->default('negotiations');
+            $table->enum('type', ['negotiations', 'private', 'group', 'task'])->default('negotiations');
             $table->enum('status', ['active', 'archived', 'muted'])->default('active');
             $table->timestamps();
         });

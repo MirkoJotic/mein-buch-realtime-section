@@ -16,7 +16,7 @@
         <ul class="header-actions pull-right">
             <li id="action-add">
                 <a>
-                    <i class="icon ion-ios-chatbubble-outline"></i>
+                    <i class="icon ion-ios-chatbubble-outline" @click="toggleCreateNewConversation()"></i>
 
                 </a>
             </li>
@@ -47,6 +47,9 @@ export default {
   methods: {
       toggleSidebar: function() {
         this.$store.dispatch('openSidebar')
+      },
+      toggleCreateNewConversation: function() {
+        this.$store.dispatch('toggleNewConversationComponent')
       }
     },
   computed: {

@@ -56,6 +56,9 @@ Route::post('tasks/create', ['as' => 'tasks.create.post', 'uses' => 'TasksContro
 Route::post('chat/initiate/task',
   ['as'=>'chat.initiate.task',   'uses'=>'ThreadsController@chatInitiateTask']
 );
+Route::post('chat/initiate/private',
+  ['as'=>'chat.initiate.private',   'uses'=>'ThreadsController@chatInitiatePrivate']
+);
 Route::post('chat/threads',
   ['as'=>'chat.threads',         'uses'=>'ThreadsController@chatThreads']
 );
@@ -80,3 +83,4 @@ Route::post('populatePeopleList', ['as'=>'thread.populatePeopleList', 'uses'=>'T
 Route::post('addPersonToConversation', ['as'=>'thread.addPersonToConversation', 'uses'=>'ThreadsController@addPersonToConversation']);
 */
 Route::get('testing', ['as'=>'testingtesting', 'uses'=>'ThreadsController@testing']);
+Route::get('test', ['as'=>'test', 'uses'=>'ThreadsController@test']);

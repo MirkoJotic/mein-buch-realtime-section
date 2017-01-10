@@ -62,7 +62,8 @@
       addToConversation(formData) {
         this.$http.post('/chat/users/add', formData).then(
           (response) => {
-            this.$store.dispatch('addUserToCurrentConversation', response.body)
+            this.$store.dispatch('addConversationAfterPrivateConversationStarted', response.body)
+            //this.$store.dispatch('setConversationId', response.body.thread )
             this.s = ""
           },
           (response) => {
